@@ -26,3 +26,5 @@ yarn-error.log*
 /.idea/modules.xml
 /.idea/vcs.xml
 /.idea/workspace.xml
+/.idea/shelf/mongodb_infrastructure___adding_env_file.xml
+/.idea/shelf/mongodb_infrastructure_,_adding_env_file/shelved.patch
