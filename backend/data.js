@@ -1,0 +1,61 @@
+const data = {
+    products: [
+
+        {
+            _id: "1",
+            name: "iPhone 13 pro max 256gb",
+            slug:"iphone-13-pro-max",
+            image: "/images/iphone-13-pro-max.png",
+            description: "Iphone 13 pro max 256gb best iphone ever",
+            price: 990,
+            countInStock: 10,
+            rating: 4.5,
+            numReviews: 4,
+        },
+        {
+            _id: "2",
+            name: "iPhone 13 64gb",
+            slug:"iphone-13",
+            image: "/images/iphone-13.png",
+            description: "Iphone 13with smaller screen",
+            price: 700,
+            countInStock: 12,
+            rating: 4.5,
+            numReviews: 4,
+        },
+        {
+            _id: "3",
+            name: "iPad pro 12.9 inch",
+            slug:"ipad-pro-12-9",
+            image: "/images/ipad-pro-12-9.jpg",
+            description: "huge screen for an ipad ",
+            price: 1200,
+            countInStock: 5,
+            rating: 4.5,
+            numReviews: 4,
+        },
+        {
+            _id: "4",
+            name: "macbook pro 13 inch",
+            slug:"macbook-pro-13",
+            image: "/images/macbook-pro-13.jpg",
+            description: "macbook pro with retina display",
+            price: 2000,
+            countInStock: 15,
+            rating: 4.5,
+            numReviews: 4,
+        },
+        {
+            _id: "5",
+            name: "airpods pro",
+            slug:"airpods-pro",
+            image: "/images/airpods-pro.jpeg",
+            description: "airpods pro best earphones",
+            price: 200,
+            countInStock: 5,
+            rating: 4.5,
+            numReviews: 4,
+        },
+    ]
+}
+export default data
