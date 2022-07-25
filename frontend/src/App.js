@@ -1,48 +1,37 @@
-import React, {useEffect, useState} from 'react'
-import axios from 'axios'
+import {BrowserRouter, Route, Routes} from 'react-router-dom'
+import HomeScreen from "./screens/HomeScreen";
+import ProductScreen from "./screens/ProductScreen";
+import {Navbar, Container} from 'react-bootstrap'
+import {LinkContainer} from 'react-router-bootstrap'
 
 
 const App = () => {
-    const [products, setProducts] = useState([])
-    useEffect(() => {
-        const fetchProducts = async()=>{
-            const {data} = await axios.get("/api/products")
-            setProducts(data)
-        }
-        fetchProducts();
-    },[])
-    // const [wasSubmitted, setWasSubmitted] = useState(false)
-    // const [formState, setFormState] = useState(initialState)
-    // const onChange = (event) => {
-    //   if (wasSubmitted) {
-    //     setFormState(initialState)
-    //   }
-    //   setWasSubmitted(false)
-    //   const {id, value} = event.target
-    //   setFormState(prev => ({...prev, [id]: value}))
-    // }
-    //
-    // const onSubmit = event => {
-    //   setWasSubmitted(true)
-    //   event.preventDefault();
-    //   const {term, coverage, age, height, weight} = formState;
-    //   axios.get(`/quote`, {
-    //     params: {
-    //       term, coverage, age, height, weight
-    //     }
-    //   })
-    //       .then(data => {
-    //         setFormState(prev => ({
-    //           ...prev, price: data.data.price,
-    //           healthClass: data.data.healthClass
-    //         }))
-    //       }).catch(e => console.log('error', e))
-    // }
     return (
-        <div>
-
-        </div>
-
+        <BrowserRouter>
+            <div className="d-flex flex-column site-container">
+                <header>
+                    <Navbar bg="dark" variant="dark">
+                        <Container>
+                            <LinkContainer to={"/"}>
+                                <Navbar.Brand> LA-Mobile</Navbar.Brand>
+                            </LinkContainer>
+                        </Container>
+                    </Navbar>
+                </header>
+                <main>
+                    <Container>
+                        <Routes>
+                            <Route path="/products/slug/:slug" element={<ProductScreen/>}/>
+                            <Route path="/" element={<HomeScreen/>}/>
+                            <Route path="/products" element={<HomeScreen/>}/>
+                        </Routes>
+                    </Container>
+                </main>
+                <footer className="d-flex justify-content-center">
+                    All rights reserved to Aviv Barel and Lior Levi Landman
+                </footer>
+            </div>
+        </BrowserRouter>
     );
 
 }
