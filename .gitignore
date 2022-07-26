@@ -28,3 +28,4 @@ yarn-error.log*
 /.idea/workspace.xml
 /.idea/shelf/mongodb_infrastructure___adding_env_file.xml
 /.idea/shelf/mongodb_infrastructure_,_adding_env_file/shelved.patch
+/.idea/jsLibraryMappings.xml
