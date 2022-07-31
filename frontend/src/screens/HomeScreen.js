@@ -1,4 +1,4 @@
-import {useEffect, useReducer} from "react";
+import {useEffect, useReducer, useState} from "react";
 import axios from 'axios'
 import logger from 'use-reducer-logger'
 import {Row, Col} from 'react-bootstrap'
@@ -41,6 +41,25 @@ const HomeScreen = () => {
         loading: true,
         error: ''
     });
+
+    const [searchResults, setSearchResults] = useState([]);
+    const [noResultsWereFound, setNoResultsWereFound] = useState(false);
+
+    const handleChange = (e) => {
+        const {value} = e.target
+        if (value === "") {
+            setSearchResults([]);
+            return;
+        }
+        const filteredProducts = products.filter(p => p.name.toLowerCase().includes(value) || p.description.toLowerCase().includes(value));
+        if (filteredProducts.length === 0) {
+            setNoResultsWereFound(true)
+        } else {
+            setNoResultsWereFound(false)
+        }
+        setSearchResults(filteredProducts);
+    }
+
     return (
         <div>
             <Helmet>
@@ -53,14 +72,22 @@ const HomeScreen = () => {
                 <LoadingBox/>
             ) : error ? (
                 <MessageBox variant="danger"> {error}</MessageBox>
-            ) : (<Row>
-                {products.map(p => (
-                    <Col  key={p.slug} sm={6} md={4} lg={2} className="mb-3">
-                        <Product product={p}/>
-                    </Col>)
-                )}
+            ) : (
+                <div>
+                    <Row md={7}>
+                        <input className='search' onChange={handleChange} type='text' name='search'
+                               placeholder='Search for an item...'/>
+                    </Row>
 
-            </Row>)}
+                    <Row>
+                        {noResultsWereFound && <div>No results were found</div>}
+                        {!noResultsWereFound && searchResults.map(p => (
+                            <Col key={p.slug} sm={6} md={4} lg={2} className="mb-3">
+                                <Product product={p}/>
+                            </Col>)
+                        )}
+
+                    </Row></div>)}
         </div>)
 }
 
