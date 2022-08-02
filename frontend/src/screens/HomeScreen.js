@@ -6,6 +6,7 @@ import Product from "../components/Product";
 import {Helmet} from "react-helmet-async";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
+import CarouselHomePage from "../components/CarouselHomePage";
 
 const reducer = (state, action) => {
     switch (action.type) {
@@ -68,13 +69,15 @@ const HomeScreen = () => {
             <h1>
                 Featured Products
             </h1>
+            <CarouselHomePage
+                products={Object.values(products.sort((a, b) => parseFloat(b.rating) - parseFloat(a.rating))).slice(0, 3)}/>
             {loading ? (
                 <LoadingBox/>
             ) : error ? (
                 <MessageBox variant="danger"> {error}</MessageBox>
             ) : (
                 <div>
-                    <Row md={7}>
+                    <Row sm={10}>
                         <input className='search' onChange={handleChange} type='text' name='search'
                                placeholder='Search for an item...'/>
                     </Row>

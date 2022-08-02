@@ -85,7 +85,8 @@ const ProductScreen = () => {
                             <Rating rating={product.rating} numReviews={product.numReviews}/>
                         </ListGroup.Item>
                         <ListGroup.Item>
-                            Price : ${product.price}
+                            Description:
+                            <p>{product.description}</p>
                         </ListGroup.Item>
                     </ListGroup>
                 </Col>
@@ -102,21 +103,25 @@ const ProductScreen = () => {
                                 <ListGroup.Item>
                                     <Row>
                                         <Col>Status:</Col>
-                                        <Col>{product.countInStock > 0 ?
-                                            <Badge bg="success">In Stock</Badge>
-                                            :
-                                            <Badge bg="danger">Out of Stock</Badge>
-                                        }</Col>
+                                        <Col>
+                                            {product.countInStock > 0 ? (
+                                                <Badge bg="success">In Stock</Badge>
+                                            ) : (
+                                                <Badge bg="danger">Unavailable</Badge>
+                                            )}
+                                        </Col>
                                     </Row>
                                 </ListGroup.Item>
-                                {product.countInStock > 0 &&
-                                <ListGroup.Item>
-                                    <div className="d-grid">
-                                        <Button onClick={addToCartHandler} variant="primary">
-                                            Add to Cart
-                                        </Button>
-                                    </div>
-                                </ListGroup.Item>}
+
+                                {product.countInStock > 0 && (
+                                    <ListGroup.Item>
+                                        <div className="d-grid">
+                                            <Button onClick={addToCartHandler} variant="primary">
+                                                Add to Cart
+                                            </Button>
+                                        </div>
+                                    </ListGroup.Item>
+                                )}
                             </ListGroup>
                         </Card.Body>
                     </Card>
@@ -124,7 +129,5 @@ const ProductScreen = () => {
             </Row>
         </div>
     );
-
-
 }
-export default ProductScreen
+export default ProductScreen;
