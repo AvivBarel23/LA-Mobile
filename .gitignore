@@ -31,3 +31,8 @@ yarn-error.log*
 /.idea/jsLibraryMappings.xml
 /node_modules/react-toastify
 
+/node_modules/clsx/clsx.d.ts
+/node_modules/clsx/dist/clsx.js
+/node_modules/clsx/dist/clsx.m.js
+/node_modules/clsx/dist/clsx.min.js
+/node_modules/clsx/readme.md
