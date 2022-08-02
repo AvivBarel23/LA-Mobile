@@ -29,3 +29,5 @@ yarn-error.log*
 /.idea/shelf/mongodb_infrastructure___adding_env_file.xml
 /.idea/shelf/mongodb_infrastructure_,_adding_env_file/shelved.patch
 /.idea/jsLibraryMappings.xml
+/node_modules/react-toastify
+
