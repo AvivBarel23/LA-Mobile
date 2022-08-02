@@ -69,6 +69,7 @@ const HomeScreen = () => {
             <h1>
                 Featured Products
             </h1>
+
             <CarouselHomePage
                 products={Object.values(products.sort((a, b) => parseFloat(b.rating) - parseFloat(a.rating))).slice(0, 3)}/>
             {loading ? (
