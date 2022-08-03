@@ -1,4 +1,3 @@
-import data from "../data.js";
 import express from "express";
 import Product from "../models/productModel.js";
 
@@ -19,7 +18,7 @@ productRouter.get("/slug/:slug", async (req, res) => {
 });
 
 productRouter.get("/:id", async (req, res) => {
-  const product = await data.products.findById(req.params.id);
+  const product = await Product.findById(req.params.id);
   if (product) {
     res.send(product);
   } else {
