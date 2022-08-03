@@ -9,13 +9,13 @@ import CartScreen from "./screens/CartScreen";
 import SignInScreen from "./screens/SignInScreen";
 
 const App = () => {
-  const { state,dispatch: ctxDispatch } = useContext(Store);
+  const { state, dispatch: ctxDispatch } = useContext(Store);
   const { cart, userInfo } = state;
 
-  const signOutHandler = ()=>{
-    ctxDispatch({type:'USER_SIGNOUT'})
+  const signoutHandler = () => {
+    ctxDispatch({ type: "USER_SIGNOUT" });
     localStorage.remove("userinfo");
-  }
+  };
   return (
     <BrowserRouter>
       <div className="d-flex flex-column site-container">
@@ -40,16 +40,17 @@ const App = () => {
                 {userInfo ? (
                   <NavDropdown title={userInfo.name} id="basic-nav-dropdown">
                     <LinkContainer to="/profile">
-                      <NavDropdown.item>User profile</NavDropdown.item>
+                      <NavDropdown.Item>User Profile</NavDropdown.Item>
                     </LinkContainer>
                     <LinkContainer to="/orderhistory">
-                      <NavDropdown.item>Order History</NavDropdown.item>
+                      <NavDropdown.Item>Order History</NavDropdown.Item>
                     </LinkContainer>
-                    <NavDropdown.Divider/>
+                    <NavDropdown.Divider />
                     <Link
                       className="dropdown-item"
                       to="#signout"
-                      onClick={signOutHandler}>
+                      onClick={signoutHandler}
+                    >
                       Sign Out
                     </Link>
                   </NavDropdown>
