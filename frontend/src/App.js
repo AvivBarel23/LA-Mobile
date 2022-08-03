@@ -1,29 +1,36 @@
 import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import HomeScreen from "./screens/HomeScreen";
 import ProductScreen from "./screens/ProductScreen";
-import { Navbar, Container, Nav, Badge, NavDropdown } from "react-bootstrap";
+import Navbar from "react-bootstrap/Navbar";
+import Badge from "react-bootstrap/Badge";
+import Nav from "react-bootstrap/Nav";
+import NavDropdown from "react-bootstrap/NavDropdown";
+import Container from "react-bootstrap/Container";
 import { LinkContainer } from "react-router-bootstrap";
 import { useContext } from "react";
 import { Store } from "./Store";
 import CartScreen from "./screens/CartScreen";
 import SignInScreen from "./screens/SignInScreen";
 
-const App = () => {
+function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { cart, userInfo } = state;
 
   const signoutHandler = () => {
     ctxDispatch({ type: "USER_SIGNOUT" });
-    localStorage.remove("userinfo");
+    localStorage.removeItem("userInfo");
   };
   return (
     <BrowserRouter>
       <div className="d-flex flex-column site-container">
+        <ToastContainer position="bottom-center" limit={1} />
         <header>
           <Navbar bg="dark" variant="dark">
             <Container>
-              <LinkContainer to={"/"}>
-                <Navbar.Brand> LA-Mobile</Navbar.Brand>
+              <LinkContainer to="/">
+                <Navbar.Brand>LA-Mobile</Navbar.Brand>
               </LinkContainer>
               <Nav>
                 <Link to="/cart" className="nav-link">
@@ -74,12 +81,14 @@ const App = () => {
             </Routes>
           </Container>
         </main>
-        <footer className="d-flex justify-content-center">
-          All rights reserved to Aviv Barel and Lior Levi Landman
+        <footer>
+          <div className="text-center">
+            All rights reserved to Aviv Barel and Lior Levi Landman
+          </div>
         </footer>
       </div>
     </BrowserRouter>
   );
-};
+}
 
 export default App;
