@@ -1,27 +1,44 @@
 import { Container, Form } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
-import { useLocation } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { Store } from "../Store";
 
 const SignInScreen = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
   const { search } = useLocation();
   const redirectInUrl = new URLSearchParams(search).get("redirect");
   const redirect = redirectInUrl ? redirectInUrl : "/";
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const { state, dispatch: ctxDispatch } = useContext(Store);
+  const { userInfo } = state;
+
   const submitHandler = async (e) => {
     e.preventDefault();
-    console.log('submit')
     try {
       const { data } = await axios.post("/api/users/signin", {
         email,
         password,
       });
-    } catch (error) {}
+      ctxDispatch({ type: "USER_SIGNIN", payload: data });
+      localStorage.setItem("userinfo", JSON.stringify(data));
+      navigate(redirect || "/");
+    } catch (error) {
+      alert("Invalid email or password");
+    }
   };
+
+  useEffect(() => {
+    if (userInfo) {
+      navigate(redirect);
+    }
+  }, [navigate, redirect, userInfo]);
+
   return (
     <Container className="small-container">
       <Helmet>
