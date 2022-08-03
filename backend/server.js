@@ -1,39 +1,23 @@
-import data from "./data.js"
-import express from "express"
-import dotenv from 'dotenv'
-import connectDatabase from "./config/MongoDb.js"
+import express from "express";
+import dotenv from "dotenv";
+import connectDatabase from "./config/MongoDb.js";
+import productRouter from "./routes/productRoutes.js";
+import userRouter from "./routes/userRoutes.js";
+import seedRouter from  "./routes/seedRoutes.js";
 
 dotenv.config();
 connectDatabase();
-const app = express()
+const app = express();
 
-//load products from server
-app.get("/api/products", (req, res) => {
-    res.send(data.products)
-})
+app.use('/api/seed',seedRouter)
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use("/api/products", productRouter);
+app.use("/api/users", userRouter);
 
-//load single product from server
-app.get("/api/products/slug/:slug", (req, res) => {
-    const product = data.products.find(p=> p.slug === req.params.slug);
-    if (product){
-        res.send(product)
-    }
-    else{
-        res.status(404).send({message:"Product doesn't exists"})
-    }
+app.use((err, req, res, next) => {
+  res.status(500).send({ message: err.message });
+});
 
-})
-
-app.get("/api/products/:id", (req, res) => {
-    const product = data.products.find(p=> p._id === req.params.id);
-    if (product){
-        res.send(product)
-    }
-    else{
-        res.status(404).send({message:"Product doesn't exists"})
-    }
-
-})
 const PORT = process.env.PORT;
-
-app.listen(PORT, console.log(`server running on port ${PORT}...`))
+app.listen(PORT, console.log(`server running on port ${PORT}...`));

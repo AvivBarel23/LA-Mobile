@@ -1,3 +1,4 @@
+import bcrypt from 'bcryptjs'
 const data = {
     users: [
         {
@@ -16,7 +17,6 @@ const data = {
     products: [
 
         {
-            _id: "1",
             name: "iPhone 13 pro max 256gb",
             slug: "iphone-13-pro-max",
             image: "/images/iphone-13-pro-max.jpg",
@@ -27,7 +27,6 @@ const data = {
             numReviews: 10,
         },
         {
-            _id: "2",
             name: "iPhone 13 64gb",
             slug: "iphone-13",
             image: "/images/iphone-13.jpg",
@@ -38,7 +37,6 @@ const data = {
             numReviews: 15,
         },
         {
-            _id: "3",
             name: "iPad pro 12.9 inch",
             slug: "ipad-pro-12-9",
             image: "/images/ipad-pro-12-9.jpg",
@@ -49,7 +47,6 @@ const data = {
             numReviews: 8,
         },
         {
-            _id: "4",
             name: "macbook pro 14 inch",
             slug: "macbook-pro-13",
             image: "/images/macbook-pro-14.jpg",
@@ -60,7 +57,6 @@ const data = {
             numReviews: 6,
         },
         {
-            _id: "5",
             name: "airpods pro",
             slug: "airpods-pro",
             image: "/images/airpods-pro.jpg",
