@@ -38,3 +38,6 @@ main{
   font-weight:bold;
 }
 
+.small-container{
+  max-width:600px;
+}

@@ -50,8 +50,12 @@ const ProductScreen = () => {
     }, [slug])
 
     const {state, dispatch: ctxDispatch} = useContext(Store);
-    const {cart} = state;
+    const {cart,userInfo} = state;
     const addToCartHandler =async () => {
+        if(!userInfo){
+            window.location.href='/signin';
+            return;
+        }
         const existsItem = cart.cartItems.find((x) => x._id === product._id)
         const quantity = existsItem ? existsItem.quantity + 1 : 1;
         const {data}=await axios.get(`/api/products/${product._id}`)

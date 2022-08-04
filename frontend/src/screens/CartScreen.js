@@ -7,8 +7,10 @@ import ListGroup from 'react-bootstrap/ListGroup'
 import {Link} from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
+import {useNavigate} from "react-router";
 
 const CartScreen = () => {
+    const navigate = useNavigate();
     const {state, dispatch: ctxDispatch} = useContext(Store);
     const {
         cart: {cartItems}
@@ -28,7 +30,9 @@ const CartScreen = () => {
     const removeItemHandler = (item) => {
         ctxDispatch({ type: 'CART_REMOVE_ITEM', payload: item });
     };
-
+    const checkoutHandler = () => {
+        navigate('/signin?redirect=/shipping');
+    };
 
     return (
         <div>
@@ -53,7 +57,7 @@ const CartScreen = () => {
                                                 alt={item.name}
                                                 className="img-fluid rounded img-thumbnail"
                                             />{' '}
-                                            <Link to={`/product/${item.slug}`}>{item.name}</Link>
+                                            <Link to={`/products/${item.slug}`}>{item.name}</Link>
                                         </Col>
                                         <Col md={3}>
                                             <Button
@@ -109,6 +113,7 @@ const CartScreen = () => {
                                             type="button"
                                             variant="primary"
                                             disabled={cartItems.length === 0}
+                                            onClick={checkoutHandler}
                                         >
                                             Proceed to Checkout
                                         </Button>
