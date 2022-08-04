@@ -13,6 +13,12 @@ import { useContext } from "react";
 import { Store } from "./Store";
 import CartScreen from "./screens/CartScreen";
 import SignInScreen from "./screens/SignInScreen";
+import SignUpScreen from "./screens/SignUpScreen";
+import ProfileScreen from "./screens/ProfileScreen";
+import CareersScreen from "./screens/CareersScreen";
+import AboutScreen from "./screens/AboutScreen";
+import ContactScreen from "./screens/ContactScreen";
+import BranchesScreen from "./screens/BranchesScreen";
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -21,6 +27,7 @@ function App() {
   const signoutHandler = () => {
     ctxDispatch({ type: "USER_SIGNOUT" });
     localStorage.removeItem("userInfo");
+    window.location.href = "/signin";
   };
   return (
     <BrowserRouter>
@@ -32,6 +39,26 @@ function App() {
               <LinkContainer to="/">
                 <Navbar.Brand>LA-Mobile</Navbar.Brand>
               </LinkContainer>
+              <Nav>
+                <Link to="/about" className="nav-link">
+                  About
+                </Link>
+              </Nav>
+              <Nav>
+                <Link to="/careers" className="nav-link">
+                  Careers
+                </Link>
+              </Nav>
+              <Nav>
+                <Link to="/branches" className="nav-link">
+                  Branches & hours
+                </Link>
+              </Nav>
+              <Nav>
+                <Link to="/contact" className="nav-link">
+                  Contact
+                </Link>
+              </Nav>
               <Nav>
                 <Link to="/cart" className="nav-link">
                   <i
@@ -78,6 +105,13 @@ function App() {
               <Route path="/signin" element={<SignInScreen />} />
               <Route path="/products" element={<HomeScreen />} />
               <Route path="/cart" element={<CartScreen />} />
+              <Route path="/signup" element={<SignUpScreen />} />
+              <Route path="/profile" element={<ProfileScreen />} />
+
+              <Route path="/careers" element={<CareersScreen />} />
+              <Route path="/about" element={<AboutScreen />} />
+              <Route path="/contact" element={<ContactScreen />} />
+              <Route path="/branches" element={<BranchesScreen />} />
             </Routes>
           </Container>
         </main>
