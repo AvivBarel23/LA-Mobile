@@ -118,7 +118,7 @@ function App() {
         </main>
         <footer>
           <div className="text-center">
-            All rights reserved to Aviv Barel and Lior Levi Landman
+            All rights reserved to Aviv Barel and Lior Levy Landman
           </div>
         </footer>
       </div>
