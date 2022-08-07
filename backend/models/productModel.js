@@ -4,38 +4,38 @@ const ProductSchema = mongoose.Schema(
   {
     name: {
       type: String,
-      require: true,
+      required: true,
     },
     slug: {
         type: String,
-        require: true,
+        required: true,
     },
     image: {
       type: String,
-      require: true,
+      required: true,
     },
     description: {
       type: String,
-      require: true,
+      required: true,
     },
     price: {
       type: Number,
-      require: true,
+      required: true,
       default: 0,
     },
     countInStock: {
       type: Number,
-      require: true,
+      required: true,
       default: 0,
     },
     rating: {
       type: Number,
-      require: true,
+      required: true,
       default: 0,
     },
     numReviews: {
       type: Number,
-      require: true,
+      required: true,
       default: 0,
     },
   },

@@ -37,6 +37,7 @@ const HomeScreen = () => {
         fetchProducts();
     }, [])
 
+    // TODO: Get rid of logger since it's not compatible
     const [{loading, error, products}, dispatch] = useReducer(logger(reducer), {
         products: [],
         loading: true,

@@ -36,6 +36,7 @@ const HomeScreen = () => {
         fetchBranches();
     }, [])
 
+    // TODO: Get rid of logger since it's not compatible
     const [{loading, error, branches}, dispatch] = useReducer(logger(reducer), {
         branches: [],
         loading: true,

@@ -13,7 +13,7 @@ export default function CareersScreen() {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [resume, setResume] = useState(null);
-    const [coverLetter,setCoverLetter]=useState("");
+    const [coverLetter,setCoverLetter] = useState("");
 
     const submitHandler = async (e) => {
 
