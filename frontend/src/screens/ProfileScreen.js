@@ -7,7 +7,7 @@ import { Helmet } from "react-helmet-async";
 import { useContext, useReducer, useState } from "react";
 import { Store } from "../Store";
 import { toast } from "react-toastify";
-import { getError } from "../util.js";
+import { getError } from "../utils.js";
 
 const reducer = (state,action)=>{
     switch(action.type){

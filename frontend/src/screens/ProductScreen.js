@@ -8,7 +8,7 @@ import Button from "react-bootstrap/Button";
 import {Helmet} from 'react-helmet-async'
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
-import {getError} from "../util";
+import {getError} from "../utils.js";
 import {Store} from "../Store";
 
 
