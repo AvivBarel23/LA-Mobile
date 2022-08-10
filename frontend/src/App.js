@@ -20,15 +20,18 @@ import AboutScreen from "./screens/AboutScreen";
 import ContactScreen from "./screens/ContactScreen";
 import BranchesScreen from "./screens/BranchesScreen";
 import ShippingAddressScreen from "./screens/ShippingAddressScreen";
+import PaymentMethodScreen from "./screens/PaymentMethodScreen";
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { cart, userInfo } = state;
 
   const signoutHandler = () => {
-    ctxDispatch({ type: "USER_SIGNOUT" });
-    localStorage.removeItem("userInfo");
-    window.location.href = "/signin";
+    ctxDispatch({ type: 'USER_SIGNOUT' });
+    localStorage.removeItem('userInfo');
+    localStorage.removeItem('shippingAddress');
+    localStorage.removeItem('paymentMethod');
+    window.location.href = '/signin';
   };
   return (
     <BrowserRouter>
@@ -113,6 +116,7 @@ function App() {
               <Route path="/contact" element={<ContactScreen />} />
               <Route path="/branches" element={<BranchesScreen />} />
               <Route path="/shipping" element={<ShippingAddressScreen />} />
+              <Route path="/payment" element={<PaymentMethodScreen />} />
             </Routes>
           </Container>
         </main>
