@@ -9,7 +9,7 @@ import { Store } from "../Store";
 import { toast } from "react-toastify";
 import { getError } from "../utils.js";
 
-export default function SignUpScreen() {
+export default function SignupScreen() {
   const navigate = useNavigate();
   const { search } = useLocation();
   const redirectInUrl = new URLSearchParams(search).get("redirect");
@@ -24,7 +24,7 @@ export default function SignUpScreen() {
   const { userInfo } = state;
   const submitHandler = async (e) => {
     e.preventDefault();
-    if(password!==confirmPassword){
+    if(password !== confirmPassword){
       toast.error('Passwords do not match');
       return;
     }
@@ -92,7 +92,7 @@ export default function SignUpScreen() {
         </div>
         <div className="mb-3">
           Already have an account?{" "}
-          <Link to={`/signup?redirect=${redirect}`}>Sign In</Link>
+          <Link to={`/signin?redirect=${redirect}`}>Sign In</Link>
         </div>
       </Form>
     </Container>
