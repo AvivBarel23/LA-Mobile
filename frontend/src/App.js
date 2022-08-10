@@ -12,8 +12,8 @@ import { LinkContainer } from "react-router-bootstrap";
 import { useContext } from "react";
 import { Store } from "./Store";
 import CartScreen from "./screens/CartScreen";
-import SignInScreen from "./screens/SignInScreen";
-import SignUpScreen from "./screens/SignUpScreen";
+import SigninScreen from "./screens/SigninScreen";
+import SignupScreen from "./screens/SignupScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import CareersScreen from "./screens/CareersScreen";
 import AboutScreen from "./screens/AboutScreen";
@@ -103,10 +103,10 @@ function App() {
             <Routes>
               <Route path="/products/:slug" element={<ProductScreen />} />
               <Route path="/" element={<HomeScreen />} />
-              <Route path="/signin" element={<SignInScreen />} />
+              <Route path="/signin" element={<SigninScreen />} />
               <Route path="/products" element={<HomeScreen />} />
               <Route path="/cart" element={<CartScreen />} />
-              <Route path="/signup" element={<SignUpScreen />} />
+              <Route path="/signup" element={<SignupScreen />} />
               <Route path="/profile" element={<ProfileScreen />} />
               <Route path="/careers" element={<CareersScreen />} />
               <Route path="/about" element={<AboutScreen />} />
