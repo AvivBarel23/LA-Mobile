@@ -1,14 +1,14 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
-const ProductSchema = mongoose.Schema(
+const productSchema = mongoose.Schema(
   {
     name: {
       type: String,
       required: true,
     },
     slug: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
     image: {
       type: String,
@@ -43,6 +43,6 @@ const ProductSchema = mongoose.Schema(
     timestamps: true,
   }
 );
-const Product = mongoose.model("Product", ProductSchema);
+const Product = mongoose.model('Product', productSchema);
 
 export default Product;

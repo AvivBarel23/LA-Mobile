@@ -1,26 +1,27 @@
-import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import HomeScreen from "./screens/HomeScreen";
-import ProductScreen from "./screens/ProductScreen";
-import Navbar from "react-bootstrap/Navbar";
-import Badge from "react-bootstrap/Badge";
-import Nav from "react-bootstrap/Nav";
-import NavDropdown from "react-bootstrap/NavDropdown";
-import Container from "react-bootstrap/Container";
-import { LinkContainer } from "react-router-bootstrap";
-import { useContext } from "react";
-import { Store } from "./Store";
-import CartScreen from "./screens/CartScreen";
-import SigninScreen from "./screens/SigninScreen";
-import SignupScreen from "./screens/SignupScreen";
-import ProfileScreen from "./screens/ProfileScreen";
-import CareersScreen from "./screens/CareersScreen";
-import AboutScreen from "./screens/AboutScreen";
-import ContactScreen from "./screens/ContactScreen";
-import BranchesScreen from "./screens/BranchesScreen";
-import ShippingAddressScreen from "./screens/ShippingAddressScreen";
-import PaymentMethodScreen from "./screens/PaymentMethodScreen";
+import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import HomeScreen from './screens/HomeScreen';
+import ProductScreen from './screens/ProductScreen';
+import Navbar from 'react-bootstrap/Navbar';
+import Badge from 'react-bootstrap/Badge';
+import Nav from 'react-bootstrap/Nav';
+import NavDropdown from 'react-bootstrap/NavDropdown';
+import Container from 'react-bootstrap/Container';
+import { LinkContainer } from 'react-router-bootstrap';
+import { useContext } from 'react';
+import { Store } from './Store';
+import CartScreen from './screens/CartScreen';
+import SigninScreen from './screens/SigninScreen';
+import SignupScreen from './screens/SignupScreen';
+import ProfileScreen from './screens/ProfileScreen';
+import CareersScreen from './screens/CareersScreen';
+import AboutScreen from './screens/AboutScreen';
+import ContactScreen from './screens/ContactScreen';
+import BranchesScreen from './screens/BranchesScreen';
+import ShippingAddressScreen from './screens/ShippingAddressScreen';
+import PaymentMethodScreen from './screens/PaymentMethodScreen';
+import PlaceOrderScreen from './screens/PlaceOrderScreen';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -67,7 +68,7 @@ function App() {
                 <Link to="/cart" className="nav-link">
                   <i
                     className="fas fa-shopping-cart "
-                    style={{ color: "white", marginRight: "0.5rem" }}
+                    style={{ color: 'white', marginRight: '0.5rem' }}
                   />
                   {cart.cartItems.length > 0 && (
                     <Badge pill bg="danger">
@@ -107,9 +108,10 @@ function App() {
               <Route path="/products/:slug" element={<ProductScreen />} />
               <Route path="/" element={<HomeScreen />} />
               <Route path="/signin" element={<SigninScreen />} />
+              <Route path="/signup" element={<SignupScreen />} />
+              <Route path="/placeorder" element={<PlaceOrderScreen />} />
               <Route path="/products" element={<HomeScreen />} />
               <Route path="/cart" element={<CartScreen />} />
-              <Route path="/signup" element={<SignupScreen />} />
               <Route path="/profile" element={<ProfileScreen />} />
               <Route path="/careers" element={<CareersScreen />} />
               <Route path="/about" element={<AboutScreen />} />
