@@ -23,6 +23,7 @@ import ShippingAddressScreen from './screens/ShippingAddressScreen';
 import PaymentMethodScreen from './screens/PaymentMethodScreen';
 import PlaceOrderScreen from './screens/PlaceOrderScreen';
 import OrderScreen from './screens/OrderScreen';
+import OrderHistoryScreen from './screens/OrderHistoryScreen';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -40,66 +41,69 @@ function App() {
       <div className="d-flex flex-column site-container">
         <ToastContainer position="bottom-center" limit={1} />
         <header>
-          <Navbar bg="dark" variant="dark">
+          <Navbar bg="dark" variant="dark" expand="lg">
             <Container>
               <LinkContainer to="/">
                 <Navbar.Brand>LA-Mobile</Navbar.Brand>
               </LinkContainer>
-              <Nav>
-                <Link to="/about" className="nav-link">
-                  About
-                </Link>
-              </Nav>
-              <Nav>
-                <Link to="/careers" className="nav-link">
-                  Careers
-                </Link>
-              </Nav>
-              <Nav>
-                <Link to="/branches" className="nav-link">
-                  Branches & hours
-                </Link>
-              </Nav>
-              <Nav>
-                <Link to="/contact" className="nav-link">
-                  Contact
-                </Link>
-              </Nav>
-              <Nav>
-                <Link to="/cart" className="nav-link">
-                  <i
-                    className="fas fa-shopping-cart "
-                    style={{ color: 'white', marginRight: '0.5rem' }}
-                  />
-                  {cart.cartItems.length > 0 && (
-                    <Badge pill bg="danger">
-                      {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
-                    </Badge>
-                  )}
-                </Link>
-                {userInfo ? (
-                  <NavDropdown title={userInfo.name} id="basic-nav-dropdown">
-                    <LinkContainer to="/profile">
-                      <NavDropdown.Item>User Profile</NavDropdown.Item>
-                    </LinkContainer>
-                    <LinkContainer to="/orderhistory">
-                      <NavDropdown.Item>Order History</NavDropdown.Item>
-                    </LinkContainer>
-                    <NavDropdown.Divider />
-                    <Link
-                      className="dropdown-item"
-                      to="#signout"
-                      onClick={signoutHandler}
-                    >
-                      Sign Out
-                    </Link>
-                  </NavDropdown>
-                ) : (
-                  <Link className="nav-link" to="/signin">
-                    Sign In
+              <Navbar.Toggle aria-controls="basic-navbar-nav" />
+              <Navbar.Collapse id="basic-navbar-nav">
+                <Nav>
+                  <Link to="/about" className="nav-link">
+                    About
                   </Link>
-                )}
-              </Nav>
+                </Nav>
+                <Nav>
+                  <Link to="/careers" className="nav-link">
+                    Careers
+                  </Link>
+                </Nav>
+                <Nav>
+                  <Link to="/branches" className="nav-link">
+                    Branches
+                  </Link>
+                </Nav>
+                <Nav>
+                  <Link to="/contact" className="nav-link">
+                    Contact
+                  </Link>
+                </Nav>
+                <Nav className="me-auto  w-100  justify-content-end">
+                  <Link to="/cart" className="nav-link">
+                    <i
+                      className="fas fa-shopping-cart "
+                      style={{ color: 'white', marginRight: '0.5rem' }}
+                    />
+                    {cart.cartItems.length > 0 && (
+                      <Badge pill bg="danger">
+                        {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
+                      </Badge>
+                    )}
+                  </Link>
+                  {userInfo ? (
+                    <NavDropdown title={userInfo.name} id="basic-nav-dropdown">
+                      <LinkContainer to="/profile">
+                        <NavDropdown.Item>User Profile</NavDropdown.Item>
+                      </LinkContainer>
+                      <LinkContainer to="/orderhistory">
+                        <NavDropdown.Item>Order History</NavDropdown.Item>
+                      </LinkContainer>
+                      <NavDropdown.Divider />
+                      <Link
+                        className="dropdown-item"
+                        to="#signout"
+                        onClick={signoutHandler}
+                      >
+                        Sign Out
+                      </Link>
+                    </NavDropdown>
+                  ) : (
+                    <Link className="nav-link" to="/signin">
+                      Sign In
+                    </Link>
+                  )}
+                </Nav>
+              </Navbar.Collapse>
             </Container>
           </Navbar>
         </header>
@@ -112,6 +116,7 @@ function App() {
               <Route path="/signup" element={<SignupScreen />} />
               <Route path="/placeorder" element={<PlaceOrderScreen />} />
               <Route path="/order/:id" element={<OrderScreen />} />
+              <Route path="/orderhistory" element={<OrderHistoryScreen />} />
               <Route path="/products" element={<HomeScreen />} />
               <Route path="/cart" element={<CartScreen />} />
               <Route path="/profile" element={<ProfileScreen />} />

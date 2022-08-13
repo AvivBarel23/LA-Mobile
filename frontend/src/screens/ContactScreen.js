@@ -43,7 +43,7 @@ export default function ContactScreen() {
         <Form.Group className="mb-3" controlId="phoneNumber">
           <Form.Label>Phone Number</Form.Label>
           <Form.Control
-            type="phone"
+            type="tel"
             required
             onChange={(e) => setResume(e.target.value)}
           />

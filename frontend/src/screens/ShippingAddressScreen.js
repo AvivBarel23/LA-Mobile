@@ -87,6 +87,7 @@ export default function ShippingAddressScreen() {
             <Form.Label>Postal Code</Form.Label>
             <Form.Control
               value={postalCode}
+              type="number"
               onChange={(e) => setPostalCode(e.target.value)}
               required
             />
