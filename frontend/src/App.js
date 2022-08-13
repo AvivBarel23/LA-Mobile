@@ -15,7 +15,6 @@ import CartScreen from './screens/CartScreen';
 import SigninScreen from './screens/SigninScreen';
 import SignupScreen from './screens/SignupScreen';
 import ProfileScreen from './screens/ProfileScreen';
-import CareersScreen from './screens/CareersScreen';
 import AboutScreen from './screens/AboutScreen';
 import ContactScreen from './screens/ContactScreen';
 import BranchesScreen from './screens/BranchesScreen';
@@ -51,11 +50,6 @@ function App() {
                 <Nav>
                   <Link to="/about" className="nav-link">
                     About
-                  </Link>
-                </Nav>
-                <Nav>
-                  <Link to="/careers" className="nav-link">
-                    Careers
                   </Link>
                 </Nav>
                 <Nav>
@@ -124,7 +118,6 @@ function App() {
               <Route path="/products" element={<HomeScreen />} />
               <Route path="/cart" element={<CartScreen />} />
               <Route path="/profile" element={<ProfileScreen />} />
-              <Route path="/careers" element={<CareersScreen />} />
               <Route path="/about" element={<AboutScreen />} />
               <Route path="/contact" element={<ContactScreen />} />
               <Route path="/branches" element={<BranchesScreen />} />
