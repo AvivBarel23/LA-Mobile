@@ -6,11 +6,12 @@ function CarouselHomePage(props) {
   return (
     <Carousel>
       {products.map((p) => (
-        <Carousel.Item interval={1000}>
+        <Carousel.Item interval={2000}>
           <Link to={`/products/${p.slug}`}>
             <img
               className="rounded mx-auto d-block"
               src={p.image}
+              style={{ maxHeight: '300px', paddingBottom: '10px' }}
               alt="slide"
             />
             <Carousel.Caption>

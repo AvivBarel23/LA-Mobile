@@ -82,7 +82,7 @@ const HomeScreen = () => {
         <MessageBox variant="danger"> {error}</MessageBox>
       ) : (
         <div>
-          <Row sm={10}>
+          <Row sm={8}>
             <input
               className="search"
               onChange={handleChange}
