@@ -16,13 +16,14 @@ import SigninScreen from './screens/SigninScreen';
 import SignupScreen from './screens/SignupScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import AboutScreen from './screens/AboutScreen';
-import ContactScreen from './screens/ContactScreen';
 import BranchesScreen from './screens/BranchesScreen';
 import ShippingAddressScreen from './screens/ShippingAddressScreen';
 import PaymentMethodScreen from './screens/PaymentMethodScreen';
 import PlaceOrderScreen from './screens/PlaceOrderScreen';
 import OrderScreen from './screens/OrderScreen';
 import OrderHistoryScreen from './screens/OrderHistoryScreen';
+import StoreScreen from './screens/StoreScreen';
+import SearchBox from './components/SearchBox';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -48,6 +49,11 @@ function App() {
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
                 <Nav>
+                  <Link to="/search" className="nav-link">
+                    Store
+                  </Link>
+                </Nav>
+                <Nav>
                   <Link to="/about" className="nav-link">
                     About
                   </Link>
@@ -57,12 +63,8 @@ function App() {
                     Branches
                   </Link>
                 </Nav>
-                <Nav>
-                  <Link to="/contact" className="nav-link">
-                    Contact
-                  </Link>
-                </Nav>
                 <Nav className="me-auto  w-100  justify-content-end">
+                  <SearchBox />
                   <Link to="/cart" className="nav-link">
                     <i
                       className="fas fa-shopping-cart "
@@ -110,6 +112,7 @@ function App() {
             <Routes>
               <Route path="/products/:slug" element={<ProductScreen />} />
               <Route path="/" element={<HomeScreen />} />
+              <Route path="/search" element={<StoreScreen />} />
               <Route path="/signin" element={<SigninScreen />} />
               <Route path="/signup" element={<SignupScreen />} />
               <Route path="/profile" element={<ProfileScreen />} />
@@ -119,7 +122,6 @@ function App() {
               <Route path="/products" element={<HomeScreen />} />
               <Route path="/cart" element={<CartScreen />} />
               <Route path="/about" element={<AboutScreen />} />
-              <Route path="/contact" element={<ContactScreen />} />
               <Route path="/branches" element={<BranchesScreen />} />
               <Route path="/shipping" element={<ShippingAddressScreen />} />
               <Route path="/payment" element={<PaymentMethodScreen />} />

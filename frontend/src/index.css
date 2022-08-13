@@ -31,7 +31,7 @@ main {
 .search {
   padding: 7px;
   font-size: 1.2rem;
-  color: lightcoral;
+  color: #555555;
   box-sizing: border-box;
   outline: none;
   border-radius: 5px;
@@ -50,4 +50,8 @@ main {
 .checkout-steps > div.active {
   border-bottom: 0.2rem solid #f08000;
   color: #f08000;
+}
+
+.text-bold {
+  font-weight: bold;
 }
