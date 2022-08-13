@@ -9,14 +9,23 @@ export default function AboutScreen() {
       </Helmet>
       <h1 className="my-3"> LA - Mobile </h1>
       <div>
-        The story behind LA-Mobile begins around 2019, when two entrepreneurs
-        Aviv(Backend engineer) and Lior(Software Engineer) met at Reichman
-        University and beacme friends. LA comes from their initials and that is
-        how the name was chosen. Both of them are tech-geeks and Apple fans.
-        They founded LA-Mobile to bring you the best products for the best
-        price. You can find many products in our store - from Cameras to Laptops
-        and Mobile phones(Apple Iphones,Google Pixel, Samsung Galaxy, and many
-        more).
+        <hr />
+        <p>
+          The story behind LA-Mobile begins around 2019, when two entrepreneurs
+          Aviv(Backend engineer) and Lior(Software Engineer) met at Reichman
+          University and beacme friends.
+          <br />
+          <i>LA</i> comes from their initials and this is how the name was
+          chosen. Both of them are tech-geeks and Apple fans.
+        </p>
+        <p>
+          They founded LA-Mobile to bring you the best products for the best
+          price.
+          <br />
+          You can find many products in our store - from Cameras to Laptops and
+          Mobile phones(Apple iPhones, Google Pixel, Samsung Galaxy, and many
+          more).
+        </p>
       </div>
     </Container>
   );
