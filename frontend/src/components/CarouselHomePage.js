@@ -11,7 +11,7 @@ function CarouselHomePage(props) {
             <img
               className="rounded mx-auto d-block"
               src={p.image}
-              style={{ maxHeight: '300px', paddingBottom: '10px' }}
+              style={{ maxHeight: '50vh', paddingBottom: '10px' }}
               alt="slide"
             />
             <Carousel.Caption>

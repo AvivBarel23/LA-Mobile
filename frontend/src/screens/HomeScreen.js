@@ -1,11 +1,6 @@
-import { useEffect, useReducer, useState } from 'react';
+import { useEffect, useReducer } from 'react';
 import axios from 'axios';
-import logger from 'use-reducer-logger';
-import { Row, Col } from 'react-bootstrap';
-import Product from '../components/Product';
 import { Helmet } from 'react-helmet-async';
-import LoadingBox from '../components/LoadingBox';
-import MessageBox from '../components/MessageBox';
 import CarouselHomePage from '../components/CarouselHomePage';
 
 const reducer = (state, action) => {
@@ -35,34 +30,9 @@ const HomeScreen = () => {
     fetchProducts();
   }, []);
 
-  // TODO: Get rid of logger since it's not compatible
-  const [{ loading, error, products }, dispatch] = useReducer(logger(reducer), {
+  const [{ products }, dispatch] = useReducer(reducer, {
     products: [],
-    loading: true,
-    error: '',
   });
-
-  const [searchResults, setSearchResults] = useState([]);
-  const [noResultsWereFound, setNoResultsWereFound] = useState(false);
-
-  const handleChange = (e) => {
-    const { value } = e.target;
-    if (value === '') {
-      setSearchResults([]);
-      return;
-    }
-    const filteredProducts = products.filter(
-      (p) =>
-        p.name.toLowerCase().includes(value) ||
-        p.description.toLowerCase().includes(value)
-    );
-    if (filteredProducts.length === 0) {
-      setNoResultsWereFound(true);
-    } else {
-      setNoResultsWereFound(false);
-    }
-    setSearchResults(filteredProducts);
-  };
 
   return (
     <div>
@@ -76,33 +46,6 @@ const HomeScreen = () => {
           products.sort((a, b) => parseFloat(b.rating) - parseFloat(a.rating))
         ).slice(0, 3)}
       />
-      {loading ? (
-        <LoadingBox />
-      ) : error ? (
-        <MessageBox variant="danger"> {error}</MessageBox>
-      ) : (
-        <div>
-          <Row sm={8}>
-            <input
-              className="search"
-              onChange={handleChange}
-              type="text"
-              name="search"
-              placeholder="Search for an item..."
-            />
-          </Row>
-
-          <Row>
-            {noResultsWereFound && <div>No results were found</div>}
-            {!noResultsWereFound &&
-              searchResults.map((p) => (
-                <Col key={p.slug} sm={6} md={4} lg={2} className="mb-3">
-                  <Product product={p} />
-                </Col>
-              ))}
-          </Row>
-        </div>
-      )}
     </div>
   );
 };
