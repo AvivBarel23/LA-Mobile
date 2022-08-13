@@ -1,29 +1,30 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Helmet } from "react-helmet-async";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import { Store } from "../Store";
-import { useNavigate } from "react-router";
-import CheckoutSteps from "../components/CheckoutSteps";
+import React, { useContext, useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet-async';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import { Store } from '../Store';
+import { useNavigate } from 'react-router';
+import CheckoutSteps from '../components/CheckoutSteps';
 
 export default function ShippingAddressScreen() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const {
-    cart: { shippingAddress },userInfo
+    cart: { shippingAddress },
+    userInfo,
   } = state;
   const navigate = useNavigate();
-  const [fullName, setFullName] = useState(shippingAddress.fullName || "");
-  const [address, setAddress] = useState(shippingAddress.address || "");
-  const [city, setCity] = useState(shippingAddress.city || "");
+  const [fullName, setFullName] = useState(shippingAddress.fullName || '');
+  const [address, setAddress] = useState(shippingAddress.address || '');
+  const [city, setCity] = useState(shippingAddress.city || '');
   const [postalCode, setPostalCode] = useState(
-    shippingAddress.postalCode || ""
+    shippingAddress.postalCode || ''
   );
-  const [country, setCountry] = useState(shippingAddress.country || "");
+  const [country, setCountry] = useState(shippingAddress.country || '');
 
   const submitHandler = (e) => {
     e.preventDefault();
     ctxDispatch({
-      type: "SAVE_SHIPPING_ADDRESS",
+      type: 'SAVE_SHIPPING_ADDRESS',
       payload: {
         fullName,
         address,
@@ -33,7 +34,7 @@ export default function ShippingAddressScreen() {
       },
     });
     localStorage.setItem(
-      "shippingAddress",
+      'shippingAddress',
       JSON.stringify({
         fullName,
         address,
@@ -42,11 +43,11 @@ export default function ShippingAddressScreen() {
         country,
       })
     );
-    navigate("/payment");
+    navigate('/payment');
   };
   useEffect(() => {
     if (!userInfo) {
-      navigate("/signin?redirect=/shipping");
+      navigate('/signin?redirect=/shipping');
     }
   }, [userInfo, navigate]);
   return (

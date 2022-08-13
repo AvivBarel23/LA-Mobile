@@ -1,56 +1,60 @@
-import Axios from "axios";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import Container from "react-bootstrap/Container";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import { Helmet } from "react-helmet-async";
-import { useContext, useReducer, useState } from "react";
-import { Store } from "../Store";
-import { toast } from "react-toastify";
-import { getError } from "../utils.js";
+import Axios from 'axios';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import Container from 'react-bootstrap/Container';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import { Helmet } from 'react-helmet-async';
+import { useContext, useReducer, useState } from 'react';
+import { Store } from '../Store';
+import { toast } from 'react-toastify';
+import { getError } from '../utils.js';
 
-const reducer = (state,action)=>{
-    switch(action.type){
-        case 'UPDATE_REQUEST':
-            return {...state,loadingUpdate:true};
-        case 'UPDATE_SUCCESS':
-            return {...state,loadingUpdate:false};
-        case 'UPDATE_FAIL':
-            return {...state,loadingUpdate:false};
-        default:
-            return {...state,loadingUpdate:true};
-    }
-}
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'UPDATE_REQUEST':
+      return { ...state, loadingUpdate: true };
+    case 'UPDATE_SUCCESS':
+      return { ...state, loadingUpdate: false };
+    case 'UPDATE_FAIL':
+      return { ...state, loadingUpdate: false };
+    default:
+      return { ...state, loadingUpdate: true };
+  }
+};
 export default function ProfileScreen() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { userInfo } = state;
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
   const [{ loadingUpdate }, dispatch] = useReducer(reducer, {
     loadingUpdate: false,
   });
   const submitHandler = async (e) => {
     e.preventDefault();
-    if(password!==confirmPassword){
-        toast.error('Passwords do not match');
-        return;
+    if (password !== confirmPassword) {
+      toast.error('Passwords do not match');
+      return;
     }
     try {
-        const { data } = await Axios.put("/api/users/profile", {
-            name,
-            email,
-            password,
-        },{headers:{Authorization:`Bearer ${userInfo.token}`}});
-        ctxDispatch({ type: "USER_SIGNIN", payload: data });
-        localStorage.setItem("userInfo", JSON.stringify(data));
-        toast.success('user updated successfully')
+      const { data } = await Axios.put(
+        '/api/users/profile',
+        {
+          name,
+          email,
+          password,
+        },
+        { headers: { Authorization: `Bearer ${userInfo.token}` } }
+      );
+      ctxDispatch({ type: 'USER_SIGNIN', payload: data });
+      localStorage.setItem('userInfo', JSON.stringify(data));
+      toast.success('user updated successfully');
     } catch (err) {
-        dispatch({ type: "UPDATE_FAIL"});
-        toast.error(getError(err));
+      dispatch({ type: 'UPDATE_FAIL' });
+      toast.error(getError(err));
     }
   };
 
