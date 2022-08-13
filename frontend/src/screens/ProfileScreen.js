@@ -1,4 +1,4 @@
-import Axios from 'axios';
+import axios from 'axios';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
@@ -18,21 +18,22 @@ const reducer = (state, action) => {
     case 'UPDATE_FAIL':
       return { ...state, loadingUpdate: false };
     default:
-      return { ...state, loadingUpdate: true };
+      return state;
   }
 };
 export default function ProfileScreen() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { userInfo } = state;
 
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
+  const [name, setName] = useState(userInfo.name);
+  const [email, setEmail] = useState(userInfo.email);
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
   const [{ loadingUpdate }, dispatch] = useReducer(reducer, {
     loadingUpdate: false,
   });
+
   const submitHandler = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
@@ -40,7 +41,7 @@ export default function ProfileScreen() {
       return;
     }
     try {
-      const { data } = await Axios.put(
+      const { data } = await axios.put(
         '/api/users/profile',
         {
           name,
@@ -49,9 +50,10 @@ export default function ProfileScreen() {
         },
         { headers: { Authorization: `Bearer ${userInfo.token}` } }
       );
+      dispatch({ type: 'UPDATE_SUCCESS' });
       ctxDispatch({ type: 'USER_SIGNIN', payload: data });
       localStorage.setItem('userInfo', JSON.stringify(data));
-      toast.success('user updated successfully');
+      toast.success('User updated successfully');
     } catch (err) {
       dispatch({ type: 'UPDATE_FAIL' });
       toast.error(getError(err));
@@ -59,16 +61,16 @@ export default function ProfileScreen() {
   };
 
   return (
-    <Container className="small-container">
+    <Container className="container small-container">
       <Helmet>
         <title>User Profile</title>
       </Helmet>
       <h1 className="my-3">User Profile</h1>
-      <Form onSubmit={submitHandler}>
-        <Form.Group className="mb-3" controlId="email">
+      <form onSubmit={submitHandler}>
+        <Form.Group className="mb-3" controlId="name">
           <Form.Label>Name</Form.Label>
           <Form.Control
-            type="name"
+            value={name}
             required
             onChange={(e) => setName(e.target.value)}
           />
@@ -77,6 +79,7 @@ export default function ProfileScreen() {
           <Form.Label>Email</Form.Label>
           <Form.Control
             type="email"
+            value={email}
             required
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -89,7 +92,7 @@ export default function ProfileScreen() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Group>
-        <Form.Group className="mb-3" controlId="password">
+        <Form.Group className="mb-3" controlId="confirmPassword">
           <Form.Label>Confirm Password</Form.Label>
           <Form.Control
             type="password"
@@ -100,7 +103,7 @@ export default function ProfileScreen() {
         <div className="mb-3">
           <Button type="submit">Update</Button>
         </div>
-      </Form>
+      </form>
     </Container>
   );
 }

@@ -112,12 +112,12 @@ function App() {
               <Route path="/" element={<HomeScreen />} />
               <Route path="/signin" element={<SigninScreen />} />
               <Route path="/signup" element={<SignupScreen />} />
+              <Route path="/profile" element={<ProfileScreen />} />
               <Route path="/placeorder" element={<PlaceOrderScreen />} />
               <Route path="/order/:id" element={<OrderScreen />} />
               <Route path="/orderhistory" element={<OrderHistoryScreen />} />
               <Route path="/products" element={<HomeScreen />} />
               <Route path="/cart" element={<CartScreen />} />
-              <Route path="/profile" element={<ProfileScreen />} />
               <Route path="/about" element={<AboutScreen />} />
               <Route path="/contact" element={<ContactScreen />} />
               <Route path="/branches" element={<BranchesScreen />} />
