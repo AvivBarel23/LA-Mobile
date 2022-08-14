@@ -1,41 +1,42 @@
-import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import HomeScreen from './screens/HomeScreen';
-import ProductScreen from './screens/ProductScreen';
-import Navbar from 'react-bootstrap/Navbar';
-import Badge from 'react-bootstrap/Badge';
-import Nav from 'react-bootstrap/Nav';
-import NavDropdown from 'react-bootstrap/NavDropdown';
-import Container from 'react-bootstrap/Container';
-import { LinkContainer } from 'react-router-bootstrap';
-import { useContext } from 'react';
-import { Store } from './Store';
-import CartScreen from './screens/CartScreen';
-import SigninScreen from './screens/SigninScreen';
-import SignupScreen from './screens/SignupScreen';
-import ProfileScreen from './screens/ProfileScreen';
-import AboutScreen from './screens/AboutScreen';
-import BranchesScreen from './screens/BranchesScreen';
-import ShippingAddressScreen from './screens/ShippingAddressScreen';
-import PaymentMethodScreen from './screens/PaymentMethodScreen';
-import PlaceOrderScreen from './screens/PlaceOrderScreen';
-import OrderScreen from './screens/OrderScreen';
-import OrderHistoryScreen from './screens/OrderHistoryScreen';
-import StoreScreen from './screens/StoreScreen';
-import SearchBox from './components/SearchBox';
-import ProtectedRoute from './components/ProtectedRoute';
+import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import HomeScreen from "./screens/HomeScreen";
+import ProductScreen from "./screens/ProductScreen";
+import Navbar from "react-bootstrap/Navbar";
+import Badge from "react-bootstrap/Badge";
+import Nav from "react-bootstrap/Nav";
+import NavDropdown from "react-bootstrap/NavDropdown";
+import Container from "react-bootstrap/Container";
+import { LinkContainer } from "react-router-bootstrap";
+import { useContext } from "react";
+import { Store } from "./Store";
+import CartScreen from "./screens/CartScreen";
+import SigninScreen from "./screens/SigninScreen";
+import SignupScreen from "./screens/SignupScreen";
+import ProfileScreen from "./screens/ProfileScreen";
+import AboutScreen from "./screens/AboutScreen";
+import BranchesScreen from "./screens/BranchesScreen";
+import ShippingAddressScreen from "./screens/ShippingAddressScreen";
+import PaymentMethodScreen from "./screens/PaymentMethodScreen";
+import PlaceOrderScreen from "./screens/PlaceOrderScreen";
+import OrderScreen from "./screens/OrderScreen";
+import OrderHistoryScreen from "./screens/OrderHistoryScreen";
+import StoreScreen from "./screens/StoreScreen";
+import SearchBox from "./components/SearchBox";
+import ProtectedRoute from "./components/ProtectedRoute";
+import CookieService from "./CookieService";
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { cart, userInfo } = state;
 
   const signoutHandler = () => {
-    ctxDispatch({ type: 'USER_SIGNOUT' });
-    localStorage.removeItem('userInfo');
-    localStorage.removeItem('shippingAddress');
-    localStorage.removeItem('paymentMethod');
-    window.location.href = '/signin';
+    ctxDispatch({ type: "USER_SIGNOUT" });
+    CookieService.remove("userInfo");
+    localStorage.removeItem("shippingAddress");
+    localStorage.removeItem("paymentMethod");
+    window.location.href = "/signin";
   };
   return (
     <BrowserRouter>
@@ -69,7 +70,7 @@ function App() {
                   <Link to="/cart" className="nav-link">
                     <i
                       className="fas fa-shopping-cart "
-                      style={{ color: 'white', marginRight: '0.5rem' }}
+                      style={{ color: "white", marginRight: "0.5rem" }}
                     />
                     {cart.cartItems.length > 0 && (
                       <Badge pill bg="danger">
@@ -92,7 +93,7 @@ function App() {
                       <NavDropdown.Divider />
                       <Link
                         className="dropdown-item"
-                        to="#signout"
+                        to="/signin"
                         onClick={signoutHandler}
                       >
                         Sign Out
@@ -113,7 +114,14 @@ function App() {
             <Routes>
               <Route path="/" element={<HomeScreen />} />
               <Route path="/products" element={<HomeScreen />} />
-              <Route path="/search" element={<StoreScreen />} />
+              <Route
+                path="/search"
+                element={
+                  <ProtectedRoute>
+                    <StoreScreen />
+                  </ProtectedRoute>
+                }
+              />
               <Route path="/signin" element={<SigninScreen />} />
               <Route path="/signup" element={<SignupScreen />} />
               <Route
