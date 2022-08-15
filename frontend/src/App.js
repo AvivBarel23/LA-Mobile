@@ -31,11 +31,12 @@ function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { cart, userInfo } = state;
 
-  const signoutHandler = () => {
+  const signOutHandler = () => {
     ctxDispatch({ type: "USER_SIGNOUT" });
     CookieService.remove("userInfo");
     localStorage.removeItem("shippingAddress");
     localStorage.removeItem("paymentMethod");
+    localStorage.removeItem("cartItems");
     window.location.href = "/signin";
   };
   return (
@@ -94,7 +95,7 @@ function App() {
                       <Link
                         className="dropdown-item"
                         to="/signin"
-                        onClick={signoutHandler}
+                        onClick={signOutHandler}
                       >
                         Sign Out
                       </Link>
@@ -114,24 +115,10 @@ function App() {
             <Routes>
               <Route path="/" element={<HomeScreen />} />
               <Route path="/products" element={<HomeScreen />} />
-              <Route
-                path="/search"
-                element={
-                  <ProtectedRoute>
-                    <StoreScreen />
-                  </ProtectedRoute>
-                }
-              />
+              <Route path="/search" element={<StoreScreen />} />
               <Route path="/signin" element={<SigninScreen />} />
               <Route path="/signup" element={<SignupScreen />} />
-              <Route
-                path="/products/:slug"
-                element={
-                  <ProtectedRoute>
-                    <ProductScreen />
-                  </ProtectedRoute>
-                }
-              />
+              <Route path="/products/:slug" element={<ProductScreen />} />
               <Route
                 path="/profile"
                 element={

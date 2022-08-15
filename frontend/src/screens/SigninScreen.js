@@ -72,13 +72,15 @@ export default function SigninScreen() {
         </Form.Group>
         <Form.Group className="mb-3 d-flex">
           <Form.Check
+            id="remember-me"
             type="checkbox"
             onClick={(e) => {
-              console.log(e);
               setRememberMeValue(e.target.checked);
             }}
           />
-          <div className="mx-2"> remember me </div>
+          <label className="mx-2" htmlFor="remember-me">
+            Remember me
+          </label>
         </Form.Group>
 
         <div className="mb-3 ">
