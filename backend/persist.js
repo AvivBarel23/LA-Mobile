@@ -4,7 +4,7 @@ const persistRouter = express.Router();
 
 persistRouter.post("/", async (req, res) => {
   const email = req.body.email;
-  const raw_data = await fs.readFile("persist.json", {
+  const raw_data = await fs.readFile("persistedData.json", {
     encoding: "utf8",
     flag: "r",
   });
@@ -13,11 +13,7 @@ persistRouter.post("/", async (req, res) => {
   let new_state = { ...state };
   new_state[email] = new_state_from_req;
   let data = JSON.stringify(new_state);
-  try {
-    await fs.writeFile("persist.json", data, { flag: "w" });
-  } catch (err) {
-    console.error(err);
-  }
+  await fs.writeFile("persistedData.json", data, { flag: "w" });
 });
 
 export default persistRouter;

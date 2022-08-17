@@ -4,7 +4,7 @@ import CookieService from "./CookieService";
 export const Store = createContext();
 const initialState = {
   userInfo: CookieService.get("userInfo")
-    ? JSON.parse(CookieService.get("userInfo"))
+    ? CookieService.get("userInfo")
     : null,
   cart: {
     shippingAddress: localStorage.getItem("shippingAddress")
@@ -17,6 +17,12 @@ const initialState = {
       ? JSON.parse(localStorage.getItem("cartItems"))
       : [],
   },
+  purchases: localStorage.getItem("purchases")
+    ? JSON.parse(localStorage.getItem("purchases"))
+    : [],
+  activityLog: localStorage.getItem("activityLog")
+    ? JSON.parse(localStorage.getItem("activityLog"))
+    : [],
 };
 function reducer(state, action) {
   switch (action.type) {

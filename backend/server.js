@@ -6,7 +6,7 @@ import userRouter from "./routes/userRoutes.js";
 import seedRouter from "./routes/seedRoutes.js";
 import branchRouter from "./routes/branchRoutes.js";
 import orderRouter from "./routes/orderRoutes.js";
-import persistRouter from "./routes/persistRoutes.js";
+
 
 dotenv.config();
 connectDatabase();
@@ -19,7 +19,6 @@ app.use("/api/products", productRouter);
 app.use("/api/users", userRouter);
 app.use("/api/orders", orderRouter);
 app.use("/api/branches", branchRouter);
-app.use("/api/persist", persistRouter);
 
 app.use((err, req, res, next) => {
   res.status(500).send({ message: err.message });
