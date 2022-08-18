@@ -1,44 +1,44 @@
-import express from "express";
-import expressAsyncHandler from "express-async-handler";
-import Product from "../models/productModel.js";
+import express from 'express';
+import expressAsyncHandler from 'express-async-handler';
+import Product from '../models/productModel.js';
 import {
   countDocuments,
   findById,
   findOne,
   getAll,
   presentProducts,
-} from "../persist.js";
+} from '../persist.js';
 
 const productRouter = express.Router();
 const PAGE_SIZE = 3;
 
-productRouter.get("/", async (req, res) => {
+productRouter.get('/', async (req, res) => {
   const products = await getAll(Product);
   res.send(products);
 });
 
 productRouter.get(
-  "/search",
+  '/search',
   expressAsyncHandler(async (req, res) => {
     const { query } = req;
     const pageSize = query.pageSize || PAGE_SIZE;
     const page = query.page || 1;
-    const price = query.price || "";
-    const rating = query.rating || "";
-    const order = query.order || "";
-    const searchQuery = query.query || "";
+    const price = query.price || '';
+    const rating = query.rating || '';
+    const order = query.order || '';
+    const searchQuery = query.query || '';
 
     const queryFilter =
-      searchQuery && searchQuery !== "all"
+      searchQuery && searchQuery !== 'all'
         ? {
             name: {
               $regex: searchQuery,
-              $options: "i",
+              $options: 'i',
             },
           }
         : {};
     const ratingFilter =
-      rating && rating !== "all"
+      rating && rating !== 'all'
         ? {
             rating: {
               $gte: Number(rating),
@@ -46,25 +46,25 @@ productRouter.get(
           }
         : {};
     const priceFilter =
-      price && price !== "all"
+      price && price !== 'all'
         ? {
             // 1-50
             price: {
-              $gte: Number(price.split("-")[0]),
-              $lte: Number(price.split("-")[1]),
+              $gte: Number(price.split('-')[0]),
+              $lte: Number(price.split('-')[1]),
             },
           }
         : {};
     const sortOrder =
-      order === "featured"
+      order === 'featured'
         ? { featured: -1 }
-        : order === "lowest"
+        : order === 'lowest'
         ? { price: 1 }
-        : order === "highest"
+        : order === 'highest'
         ? { price: -1 }
-        : order === "toprated"
+        : order === 'toprated'
         ? { rating: -1 }
-        : order === "newest"
+        : order === 'newest'
         ? { createdAt: -1 }
         : { _id: -1 };
 
@@ -96,7 +96,7 @@ productRouter.get(
   })
 );
 
-productRouter.get("/slug/:slug", async (req, res) => {
+productRouter.get('/slug/:slug', async (req, res) => {
   const product = await findOne(Product, { slug: req.params.slug });
   if (product) {
     res.send(product);
@@ -105,7 +105,7 @@ productRouter.get("/slug/:slug", async (req, res) => {
   }
 });
 
-productRouter.get("/:id", async (req, res) => {
+productRouter.get('/:id', async (req, res) => {
   const product = await findById(Product, req.params.id);
   if (product) {
     res.send(product);

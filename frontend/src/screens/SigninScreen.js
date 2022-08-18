@@ -1,23 +1,23 @@
-import Axios from "axios";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import Container from "react-bootstrap/Container";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import { Helmet } from "react-helmet-async";
-import { useContext, useEffect, useState } from "react";
-import { Store } from "../Store";
-import { toast } from "react-toastify";
-import { getError } from "../utils.js";
-import CookieService from "../CookieService";
+import Axios from 'axios';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import Container from 'react-bootstrap/Container';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import { Helmet } from 'react-helmet-async';
+import { useContext, useEffect, useState } from 'react';
+import { Store } from '../Store';
+import { toast } from 'react-toastify';
+import { getError } from '../utils.js';
+import CookieService from '../CookieService';
 
 export default function SigninScreen() {
   const navigate = useNavigate();
   const { search } = useLocation();
-  const redirectInUrl = new URLSearchParams(search).get("redirect");
-  const redirect = redirectInUrl ? redirectInUrl : "/";
+  const redirectInUrl = new URLSearchParams(search).get('redirect');
+  const redirect = redirectInUrl ? redirectInUrl : '/';
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [rememberMeValue, setRememberMeValue] = useState(false);
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { userInfo } = state;
@@ -26,23 +26,23 @@ export default function SigninScreen() {
     e.preventDefault();
     try {
       const expiresAt = rememberMeValue ? 60 * 24 * 10 : 30;
-      const { data } = await Axios.post("/api/users/signin", {
+      const { data } = await Axios.post('/api/users/signin', {
         email,
         password,
       });
-      ctxDispatch({ type: "USER_SIGNIN", payload: data });
+      ctxDispatch({ type: 'USER_SIGNIN', payload: data });
       const date = new Date();
       date.setTime(date.getTime() + expiresAt * 60 * 1000);
-      const options = { path: "/", expires: date };
-      CookieService.set("userInfo", JSON.stringify(data), options);
-      navigate(redirect || "/");
+      const options = { path: '/', expires: date };
+      CookieService.set('userInfo', JSON.stringify(data), options);
+      navigate(redirect || '/');
     } catch (err) {
       toast.error(getError(err));
     }
   };
 
   useEffect(() => {
-    if (CookieService.get("userInfo")) {
+    if (CookieService.get('userInfo')) {
       navigate(redirect);
     }
   }, [navigate, redirect, userInfo]);
@@ -88,7 +88,7 @@ export default function SigninScreen() {
         </div>
 
         <div className="mb-3">
-          New customer?{" "}
+          New customer?{' '}
           <Link to={`/signup?redirect=${redirect}`}>Create your account</Link>
         </div>
       </Form>

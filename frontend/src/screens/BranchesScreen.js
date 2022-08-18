@@ -1,6 +1,5 @@
 import { useEffect, useReducer } from 'react';
 import axios from 'axios';
-import logger from 'use-reducer-logger';
 import { Row, Col } from 'react-bootstrap';
 import { Helmet } from 'react-helmet-async';
 import LoadingBox from '../components/LoadingBox';
@@ -34,8 +33,7 @@ const BranchesScreen = () => {
     fetchBranches();
   }, []);
 
-  // TODO: Get rid of logger since it's not compatible
-  const [{ loading, error, branches }, dispatch] = useReducer(logger(reducer), {
+  const [{ loading, error, branches }, dispatch] = useReducer(reducer, {
     branches: [],
     loading: true,
     error: '',

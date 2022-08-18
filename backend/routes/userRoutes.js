@@ -1,13 +1,13 @@
-import express from "express";
-import expressAsyncHandler from "express-async-handler";
-import User from "../models/userModel.js";
-import bcrypt from "bcryptjs";
-import { isAuth, generateToken } from "../utils.js";
-import { findById, findOne, save } from "../persist.js";
+import express from 'express';
+import expressAsyncHandler from 'express-async-handler';
+import User from '../models/userModel.js';
+import bcrypt from 'bcryptjs';
+import { isAuth, generateToken } from '../utils.js';
+import { findById, findOne, save } from '../persist.js';
 const userRouter = express.Router();
 
 userRouter.post(
-  "/signin",
+  '/signin',
   expressAsyncHandler(async (req, res) => {
     const user = await findOne(User, { email: req.body.email });
     if (user) {
@@ -22,12 +22,12 @@ userRouter.post(
         return;
       }
     }
-    res.status(401).send({ message: "Invalid email or password" });
+    res.status(401).send({ message: 'Invalid email or password' });
   })
 );
 
 userRouter.post(
-  "/signup",
+  '/signup',
   expressAsyncHandler(async (req, res) => {
     const newUser = new User({
       name: req.body.name,
@@ -46,7 +46,7 @@ userRouter.post(
 );
 
 userRouter.put(
-  "/profile",
+  '/profile',
   isAuth,
   expressAsyncHandler(async (req, res) => {
     const user = await findById(User, req.user._id);
@@ -65,7 +65,7 @@ userRouter.put(
         token: generateToken(updatedUser),
       });
     } else {
-      res.status(404).send({ message: "User was not found" });
+      res.status(404).send({ message: 'User was not found' });
     }
   })
 );

@@ -8,18 +8,6 @@ import { Store } from '../Store';
 import { toast } from 'react-toastify';
 import { getError } from '../utils.js';
 
-const reducer = (state, action) => {
-  switch (action.type) {
-    case 'UPDATE_REQUEST':
-      return { ...state, loadingUpdate: true };
-    case 'UPDATE_SUCCESS':
-      return { ...state, loadingUpdate: false };
-    case 'UPDATE_FAIL':
-      return { ...state, loadingUpdate: false };
-    default:
-      return state;
-  }
-};
 export default function ProfileScreen() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { userInfo } = state;
@@ -28,10 +16,6 @@ export default function ProfileScreen() {
   const [email, setEmail] = useState(userInfo.email);
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-
-  const [{ loadingUpdate }, dispatch] = useReducer(reducer, {
-    loadingUpdate: false,
-  });
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -49,12 +33,10 @@ export default function ProfileScreen() {
         },
         { headers: { Authorization: `Bearer ${userInfo.token}` } }
       );
-      dispatch({ type: 'UPDATE_SUCCESS' });
       ctxDispatch({ type: 'USER_SIGNIN', payload: data });
       localStorage.setItem('userInfo', JSON.stringify(data));
       toast.success('User updated successfully');
     } catch (err) {
-      dispatch({ type: 'UPDATE_FAIL' });
       toast.error(getError(err));
     }
   };
