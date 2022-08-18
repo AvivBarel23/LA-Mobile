@@ -1,21 +1,21 @@
-import axios from 'axios';
-import React, { useEffect, useReducer } from 'react';
-import { Button, Col, Row } from 'react-bootstrap';
-import { Helmet } from 'react-helmet-async';
-import { LinkContainer } from 'react-router-bootstrap';
-import { Link } from 'react-router-dom';
-import { useLocation, useNavigate } from 'react-router-dom';
-import LoadingBox from '../components/LoadingBox';
-import MessageBox from '../components/MessageBox';
-import Product from '../components/Product';
-import Rating from '../components/Rating';
-import { getError } from '../utils';
+import axios from "axios";
+import React, { useEffect, useReducer } from "react";
+import { Button, Col, Row } from "react-bootstrap";
+import { Helmet } from "react-helmet-async";
+import { LinkContainer } from "react-router-bootstrap";
+import { Link } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import LoadingBox from "../components/LoadingBox";
+import MessageBox from "../components/MessageBox";
+import Product from "../components/Product";
+import Rating from "../components/Rating";
+import { getError } from "../utils";
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case 'FETCH_REQUEST':
+    case "FETCH_REQUEST":
       return { ...state, loading: true };
-    case 'FETCH_SUCCESS':
+    case "FETCH_SUCCESS":
       return {
         ...state,
         products: action.payload.products,
@@ -24,7 +24,7 @@ const reducer = (state, action) => {
         countProducts: action.payload.countProducts,
         loading: false,
       };
-    case 'FETCH_FAIL':
+    case "FETCH_FAIL":
       return { ...state, loading: false, error: action.payload };
 
     default:
@@ -34,37 +34,37 @@ const reducer = (state, action) => {
 
 const prices = [
   {
-    name: '$1 to $50',
-    value: '1-50',
+    name: "$1 to $50",
+    value: "1-50",
   },
   {
-    name: '$51 to $200',
-    value: '51-200',
+    name: "$51 to $200",
+    value: "51-200",
   },
   {
-    name: '$201 to $2000',
-    value: '201-2000',
+    name: "$201 to $2000",
+    value: "201-2000",
   },
 ];
 
 export const ratings = [
   {
-    name: '4stars & up',
+    name: "4stars & up",
     rating: 4,
   },
 
   {
-    name: '3stars & up',
+    name: "3stars & up",
     rating: 3,
   },
 
   {
-    name: '2stars & up',
+    name: "2stars & up",
     rating: 2,
   },
 
   {
-    name: '1stars & up',
+    name: "1stars & up",
     rating: 1,
   },
 ];
@@ -73,16 +73,16 @@ export default function StoreScreen() {
   const navigate = useNavigate();
   const { search } = useLocation();
   const sp = new URLSearchParams(search);
-  const query = sp.get('query') || 'all';
-  const price = sp.get('price') || 'all';
-  const rating = sp.get('rating') || 'all';
-  const order = sp.get('order') || 'newest';
-  const page = sp.get('page') || 1;
+  const query = sp.get("query") || "all";
+  const price = sp.get("price") || "all";
+  const rating = sp.get("rating") || "all";
+  const order = sp.get("order") || "newest";
+  const page = sp.get("page") || 1;
 
   const [{ loading, error, products, pages, countProducts }, dispatch] =
     useReducer(reducer, {
       loading: true,
-      error: '',
+      error: "",
     });
 
   useEffect(() => {
@@ -91,10 +91,10 @@ export default function StoreScreen() {
         const { data } = await axios.get(
           `/api/products/search?page=${page}&query=${query}&price=${price}&rating=${rating}&order=${order}`
         );
-        dispatch({ type: 'FETCH_SUCCESS', payload: data });
+        dispatch({ type: "FETCH_SUCCESS", payload: data });
       } catch (err) {
         dispatch({
-          type: 'FETCH_FAIL',
+          type: "FETCH_FAIL",
           payload: getError(error),
         });
       }
@@ -123,8 +123,8 @@ export default function StoreScreen() {
             <ul>
               <li>
                 <Link
-                  className={'all' === price ? 'text-bold' : ''}
-                  to={getFilterUrl({ price: 'all' })}
+                  className={"all" === price ? "text-bold" : ""}
+                  to={getFilterUrl({ price: "all" })}
                 >
                   Any
                 </Link>
@@ -133,7 +133,7 @@ export default function StoreScreen() {
                 <li key={p.value}>
                   <Link
                     to={getFilterUrl({ price: p.value })}
-                    className={p.value === price ? 'text-bold' : ''}
+                    className={p.value === price ? "text-bold" : ""}
                   >
                     {p.name}
                   </Link>
@@ -148,18 +148,18 @@ export default function StoreScreen() {
                 <li key={r.name}>
                   <Link
                     to={getFilterUrl({ rating: r.rating })}
-                    className={`${r.rating}` === `${rating}` ? 'text-bold' : ''}
+                    className={`${r.rating}` === `${rating}` ? "text-bold" : ""}
                   >
-                    <Rating caption={' & up'} rating={r.rating}></Rating>
+                    <Rating caption={" & up"} rating={r.rating} />
                   </Link>
                 </li>
               ))}
               <li>
                 <Link
-                  to={getFilterUrl({ rating: 'all' })}
-                  className={rating === 'all' ? 'text-bold' : ''}
+                  to={getFilterUrl({ rating: "all" })}
+                  className={rating === "all" ? "text-bold" : ""}
                 >
-                  <Rating caption={' & up'} rating={0}></Rating>
+                  <Rating caption={" & up"} rating={0} />
                 </Link>
               </li>
             </ul>
@@ -167,7 +167,7 @@ export default function StoreScreen() {
         </Col>
         <Col md={9}>
           {loading ? (
-            <LoadingBox></LoadingBox>
+            <LoadingBox />
           ) : error ? (
             <MessageBox variant="danger">{error}</MessageBox>
           ) : (
@@ -175,22 +175,22 @@ export default function StoreScreen() {
               <Row className="justify-content-between mb-3">
                 <Col md={6}>
                   <div>
-                    {countProducts === 0 ? 'No' : countProducts} Results
-                    {query !== 'all' && ' : ' + query}
-                    {price !== 'all' && ' : Price ' + price}
-                    {rating !== 'all' && ' : Rating ' + rating + ' & up'}
-                    {query !== 'all' || rating !== 'all' || price !== 'all' ? (
+                    {countProducts === 0 ? "No" : countProducts} Results
+                    {query !== "all" && " : " + query}
+                    {price !== "all" && " : Price " + price}
+                    {rating !== "all" && " : Rating " + rating + " & up"}
+                    {query !== "all" || rating !== "all" || price !== "all" ? (
                       <Button
                         variant="light"
-                        onClick={() => navigate('/search')}
+                        onClick={() => navigate("/search")}
                       >
-                        <i className="fas fa-times-circle"></i>
+                        <i className="fas fa-times-circle" />
                       </Button>
                     ) : null}
                   </div>
                 </Col>
                 <Col className="text-end">
-                  Sort by{' '}
+                  Sort by{" "}
                   <select
                     value={order}
                     onChange={(e) => {
@@ -211,7 +211,7 @@ export default function StoreScreen() {
               <Row>
                 {products.map((product) => (
                   <Col sm={6} lg={4} className="mb-3" key={product._id}>
-                    <Product product={product}></Product>
+                    <Product product={product} />
                   </Col>
                 ))}
               </Row>
@@ -224,7 +224,7 @@ export default function StoreScreen() {
                     to={getFilterUrl({ page: x + 1 })}
                   >
                     <Button
-                      className={Number(page) === x + 1 ? 'text-bold' : ''}
+                      className={Number(page) === x + 1 ? "text-bold" : ""}
                       variant="light"
                     >
                       {x + 1}

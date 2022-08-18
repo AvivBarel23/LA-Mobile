@@ -1,12 +1,13 @@
-import express from 'express';
-import expressAsyncHandler from 'express-async-handler';
-import Order from '../models/orderModel.js';
-import { isAuth } from '../utils.js';
+import express from "express";
+import expressAsyncHandler from "express-async-handler";
+import Order from "../models/orderModel.js";
+import { isAuth } from "../utils.js";
+import { find, findById, save } from "../persist.js";
 
 const orderRouter = express.Router();
 
 orderRouter.post(
-  '/',
+  "/",
   isAuth,
   expressAsyncHandler(async (req, res) => {
     const newOrder = new Order({
@@ -19,46 +20,46 @@ orderRouter.post(
       user: req.user._id,
     });
 
-    const order = await newOrder.save();
-    res.status(201).send({ message: 'New Order Created', order });
+    const order = await save(newOrder);
+    res.status(201).send({ message: "New Order Created", order });
   })
 );
 
 orderRouter.get(
-  '/mine',
+  "/mine",
   isAuth,
   expressAsyncHandler(async (req, res) => {
-    const orders = await Order.find({ user: req.user._id });
+    const orders = await find("Order", { user: req.user._id });
     res.send(orders);
   })
 );
 
 orderRouter.get(
-  '/:id',
+  "/:id",
   isAuth,
   expressAsyncHandler(async (req, res) => {
-    const order = await Order.findById(req.params.id);
+    const order = await findById(Order, req.params.id);
     if (order) {
       res.send(order);
     } else {
-      res.status(404).send({ message: 'Order not found' });
+      res.status(404).send({ message: "Order not found" });
     }
   })
 );
 
 orderRouter.put(
-  '/:id/pay',
+  "/:id/pay",
   isAuth,
   expressAsyncHandler(async (req, res) => {
-    const order = await Order.findById(req.params.id);
+    const order = await findById(Order, req.params.id);
     if (order) {
       order.isPaid = true;
       order.paidAt = Date.now();
 
       const updatedOrder = await order.save();
-      res.send({ message: 'Order paid', order: updatedOrder });
+      res.send({ message: "Order paid", order: updatedOrder });
     } else {
-      res.status(404).send({ message: 'Order not found' });
+      res.status(404).send({ message: "Order not found" });
     }
   })
 );

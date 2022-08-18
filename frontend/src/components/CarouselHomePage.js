@@ -1,17 +1,17 @@
-import Carousel from 'react-bootstrap/Carousel';
-import { Link } from 'react-router-dom';
+import Carousel from "react-bootstrap/Carousel";
+import { Link } from "react-router-dom";
 
 function CarouselHomePage(props) {
   const { products } = props;
   return (
     <Carousel>
       {products.map((p) => (
-        <Carousel.Item interval={2000}>
+        <Carousel.Item interval={2000} key={p.slug}>
           <Link to={`/products/${p.slug}`}>
             <img
               className="rounded mx-auto d-block"
               src={p.image}
-              style={{ maxHeight: '50vh', paddingBottom: '10px' }}
+              style={{ maxHeight: "50vh", paddingBottom: "10px" }}
               alt="slide"
             />
             <Carousel.Caption>
