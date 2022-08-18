@@ -12,7 +12,7 @@ export default function ProfileScreen() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { userInfo } = state;
 
-  const [name, setName] = useState(userInfo.name);
+  const [username, setUsername] = useState(userInfo.username);
   const [email, setEmail] = useState(userInfo.email);
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -27,7 +27,7 @@ export default function ProfileScreen() {
       const { data } = await axios.put(
         '/api/users/profile',
         {
-          name,
+          username,
           email,
           password,
         },
@@ -48,12 +48,12 @@ export default function ProfileScreen() {
       </Helmet>
       <h1 className="my-3">User Profile</h1>
       <form onSubmit={submitHandler}>
-        <Form.Group className="mb-3" controlId="name">
-          <Form.Label>Name</Form.Label>
+        <Form.Group className="mb-3" controlId="username">
+          <Form.Label>Username</Form.Label>
           <Form.Control
-            value={name}
+            value={username}
             required
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) => setUsername(e.target.value)}
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="email">

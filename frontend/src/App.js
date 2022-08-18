@@ -81,7 +81,7 @@ function App() {
                   </Link>
                   {userInfo ? (
                     <NavDropdown
-                      title={userInfo.name}
+                      title={userInfo.username}
                       id="basic-nav-dropdown"
                       align="end"
                     >

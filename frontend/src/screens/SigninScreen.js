@@ -16,7 +16,7 @@ export default function SigninScreen() {
   const redirectInUrl = new URLSearchParams(search).get('redirect');
   const redirect = redirectInUrl ? redirectInUrl : '/';
 
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMeValue, setRememberMeValue] = useState(false);
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -25,14 +25,19 @@ export default function SigninScreen() {
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
-      const expiresAt = rememberMeValue ? 60 * 24 * 10 : 30;
+      const tenDaysInMinutes = 60 * 24 * 10;
+      const thirtyMinutesInMinutes = 30;
+      const expiresAt =
+        (rememberMeValue ? tenDaysInMinutes : thirtyMinutesInMinutes) *
+        60 *
+        1000;
       const { data } = await Axios.post('/api/users/signin', {
-        email,
+        username,
         password,
       });
       ctxDispatch({ type: 'USER_SIGNIN', payload: data });
       const date = new Date();
-      date.setTime(date.getTime() + expiresAt * 60 * 1000);
+      date.setTime(date.getTime() + expiresAt);
       const options = { path: '/', expires: date };
       CookieService.set('userInfo', JSON.stringify(data), options);
       navigate(redirect || '/');
@@ -54,12 +59,12 @@ export default function SigninScreen() {
       </Helmet>
       <h1 className="my-3">Sign In</h1>
       <Form onSubmit={submitHandler}>
-        <Form.Group className="mb-3" controlId="email">
-          <Form.Label>Email</Form.Label>
+        <Form.Group className="mb-3" controlId="username">
+          <Form.Label>Username</Form.Label>
           <Form.Control
-            type="email"
+            type="text"
             required
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => setUsername(e.target.value)}
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="password">

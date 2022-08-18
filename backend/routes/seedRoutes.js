@@ -7,10 +7,16 @@ import { insertMany } from '../persist.js';
 const seedRouter = express.Router();
 
 seedRouter.get('/', async (req, res) => {
-  await Product.remove({});
-  const createdProducts = await insertMany(Product, data.products);
-  await User.remove({});
-  const createdUsers = await insertMany(User, data.users);
+  let createdProducts = {};
+  let createdUsers = {};
+  try {
+    await Product.remove({});
+    createdProducts = await insertMany(Product, data.products);
+  } catch {}
+  try {
+    await User.remove({});
+    createdUsers = await insertMany(User, data.users);
+  } catch {}
 
   res.send({ createdProducts, createdUsers });
 });

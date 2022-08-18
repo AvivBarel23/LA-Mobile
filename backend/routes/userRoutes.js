@@ -9,12 +9,12 @@ const userRouter = express.Router();
 userRouter.post(
   '/signin',
   expressAsyncHandler(async (req, res) => {
-    const user = await findOne(User, { email: req.body.email });
+    const user = await findOne(User, { username: req.body.username });
     if (user) {
       if (bcrypt.compareSync(req.body.password, user.password)) {
         res.send({
           _id: user._id,
-          name: user.name,
+          username: user.username,
           email: user.email,
           isAdmin: user.isAdmin,
           token: generateToken(user),
@@ -22,7 +22,7 @@ userRouter.post(
         return;
       }
     }
-    res.status(401).send({ message: 'Invalid email or password' });
+    res.status(401).send({ message: 'Invalid username or password' });
   })
 );
 
@@ -30,14 +30,14 @@ userRouter.post(
   '/signup',
   expressAsyncHandler(async (req, res) => {
     const newUser = new User({
-      name: req.body.name,
+      username: req.body.username,
       email: req.body.email,
       password: bcrypt.hashSync(req.body.password),
     });
     const user = await save(newUser);
     res.send({
       _id: user._id,
-      name: user.name,
+      username: user.username,
       email: user.email,
       isAdmin: user.isAdmin,
       token: generateToken(user),
@@ -51,7 +51,7 @@ userRouter.put(
   expressAsyncHandler(async (req, res) => {
     const user = await findById(User, req.user._id);
     if (user) {
-      user.name = req.body.name || user.name;
+      user.username = req.body.name || user.username;
       user.email = req.body.email || user.email;
       if (req.body.password) {
         user.password = bcrypt.hashSync(req.body.password, 8);
@@ -59,7 +59,7 @@ userRouter.put(
       const updatedUser = await save(user);
       res.send({
         _id: updatedUser._id,
-        name: updatedUser.name,
+        name: updatedUser.username,
         email: updatedUser.email,
         isAdmin: updatedUser.isAdmin,
         token: generateToken(updatedUser),
