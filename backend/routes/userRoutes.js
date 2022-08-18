@@ -1,14 +1,15 @@
-import express from 'express';
-import expressAsyncHandler from 'express-async-handler';
-import User from '../models/userModel.js';
-import bcrypt from 'bcryptjs';
-import { isAuth, generateToken } from '../utils.js';
+import express from "express";
+import expressAsyncHandler from "express-async-handler";
+import User from "../models/userModel.js";
+import bcrypt from "bcryptjs";
+import { isAuth, generateToken } from "../utils.js";
+import { findById, findOne, save } from "../persist.js";
 const userRouter = express.Router();
 
 userRouter.post(
-  '/signin',
+  "/signin",
   expressAsyncHandler(async (req, res) => {
-    const user = await User.findOne({ email: req.body.email });
+    const user = await findOne(User, { email: req.body.email });
     if (user) {
       if (bcrypt.compareSync(req.body.password, user.password)) {
         res.send({
@@ -21,19 +22,19 @@ userRouter.post(
         return;
       }
     }
-    res.status(401).send({ message: 'Invalid email or password' });
+    res.status(401).send({ message: "Invalid email or password" });
   })
 );
 
 userRouter.post(
-  '/signup',
+  "/signup",
   expressAsyncHandler(async (req, res) => {
     const newUser = new User({
       name: req.body.name,
       email: req.body.email,
       password: bcrypt.hashSync(req.body.password),
     });
-    const user = await newUser.save();
+    const user = await save(newUser);
     res.send({
       _id: user._id,
       name: user.name,
@@ -45,17 +46,17 @@ userRouter.post(
 );
 
 userRouter.put(
-  '/profile',
+  "/profile",
   isAuth,
   expressAsyncHandler(async (req, res) => {
-    const user = await User.findById(req.user._id);
+    const user = await findById(User, req.user._id);
     if (user) {
       user.name = req.body.name || user.name;
       user.email = req.body.email || user.email;
       if (req.body.password) {
         user.password = bcrypt.hashSync(req.body.password, 8);
       }
-      const updatedUser = await user.save();
+      const updatedUser = await save(user);
       res.send({
         _id: updatedUser._id,
         name: updatedUser.name,
@@ -64,7 +65,7 @@ userRouter.put(
         token: generateToken(updatedUser),
       });
     } else {
-      res.status(404).send({ message: 'User was not found' });
+      res.status(404).send({ message: "User was not found" });
     }
   })
 );

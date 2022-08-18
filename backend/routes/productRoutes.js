@@ -1,12 +1,19 @@
 import express from "express";
 import expressAsyncHandler from "express-async-handler";
 import Product from "../models/productModel.js";
+import {
+  countDocuments,
+  findById,
+  findOne,
+  getAll,
+  presentProducts,
+} from "../persist.js";
 
 const productRouter = express.Router();
 const PAGE_SIZE = 3;
 
 productRouter.get("/", async (req, res) => {
-  const products = await Product.find();
+  const products = await getAll(Product);
   res.send(products);
 });
 
@@ -61,16 +68,21 @@ productRouter.get(
         ? { createdAt: -1 }
         : { _id: -1 };
 
-    const products = await Product.find({
+    const filterObj = {
       ...queryFilter,
       ...priceFilter,
       ...ratingFilter,
-    })
-      .sort(sortOrder)
-      .skip(pageSize * (page - 1))
-      .limit(pageSize);
+    };
+    const skipSize = pageSize * (page - 1);
 
-    const countProducts = await Product.countDocuments({
+    const products = await presentProducts(
+      filterObj,
+      sortOrder,
+      skipSize,
+      pageSize
+    );
+
+    const countProducts = await countDocuments(Product, {
       ...queryFilter,
       ...priceFilter,
       ...ratingFilter,
@@ -85,7 +97,7 @@ productRouter.get(
 );
 
 productRouter.get("/slug/:slug", async (req, res) => {
-  const product = await Product.findOne({ slug: req.params.slug });
+  const product = await findOne(Product, { slug: req.params.slug });
   if (product) {
     res.send(product);
   } else {
@@ -94,7 +106,7 @@ productRouter.get("/slug/:slug", async (req, res) => {
 });
 
 productRouter.get("/:id", async (req, res) => {
-  const product = await Product.findById(req.params.id);
+  const product = await findById(Product, req.params.id);
   if (product) {
     res.send(product);
   } else {

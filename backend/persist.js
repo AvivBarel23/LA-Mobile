@@ -1,19 +1,50 @@
-import express from "express";
-import fs from "fs/promises";
-const persistRouter = express.Router();
+import Product from "./models/productModel.js";
+import User from "./models/userModel.js";
+import Order from "./models/orderModel.js";
+export const save = async (obj) => {
+  return obj.save();
+};
 
-persistRouter.post("/", async (req, res) => {
-  const email = req.body.email;
-  const raw_data = await fs.readFile("persistedData.json", {
-    encoding: "utf8",
-    flag: "r",
-  });
-  let state = JSON.parse(raw_data);
-  let new_state_from_req = req.body.newState;
-  let new_state = { ...state };
-  new_state[email] = new_state_from_req;
-  let data = JSON.stringify(new_state);
-  await fs.writeFile("persistedData.json", data, { flag: "w" });
-});
+export const find = async (table, query) => {
+  let results = {};
+  if (table === "User") {
+    results = User.find(query);
+  }
+  if (table === "Order") {
+    results = await Order.find(query);
+  }
+  if (table === "Product") {
+    results = Product.find(query);
+  }
+  return results;
+};
 
-export default persistRouter;
+export const getAll = async (table) => {
+  return table.find();
+};
+export const findOne = async (table, query) => {
+  return table.findOne(query);
+};
+
+export const findById = async (table, indicator) => {
+  return table.findById(indicator);
+};
+
+export const countDocuments = async (table, filter) => {
+  return table.countDocuments(filter);
+};
+export const insertMany = async (table, obj) => {
+  return table.insertMany(obj);
+};
+export const presentProducts = async (
+  filterObj,
+  sortOrder,
+  skipSize,
+  limitSize
+) => {
+  return Product.find(filterObj)
+    .sort(sortOrder)
+    .skip(skipSize)
+    .limit(limitSize);
+};
+//testing
