@@ -29,7 +29,7 @@ orderRouter.get(
   '/mine',
   isAuth,
   expressAsyncHandler(async (req, res) => {
-    const orders = find('Order', { user: req.user._id });
+    const orders = await find('Order', { user: req.user._id });
     res.send(orders);
   })
 );
