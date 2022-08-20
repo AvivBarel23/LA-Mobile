@@ -26,6 +26,9 @@ import StoreScreen from './screens/StoreScreen';
 import SearchBox from './components/SearchBox';
 import ProtectedRoute from './components/ProtectedRoute';
 import CookieService from './CookieService';
+import AdminRoute from './components/AdminRoute';
+import ProductListScreen from './screens/ProductListScreen';
+import ProductEditScreen from './screens/ProductEditScreen';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -57,13 +60,13 @@ function App() {
                   </Link>
                 </Nav>
                 <Nav>
-                  <Link to="/about" className="nav-link">
-                    About
+                  <Link to="/branches" className="nav-link">
+                    Branches
                   </Link>
                 </Nav>
                 <Nav>
-                  <Link to="/branches" className="nav-link">
-                    Branches
+                  <Link to="/about" className="nav-link">
+                    About
                   </Link>
                 </Nav>
                 <Nav className="me-auto  w-100  justify-content-end">
@@ -104,6 +107,16 @@ function App() {
                     <Link className="nav-link" to="/signin">
                       Sign In
                     </Link>
+                  )}
+                  {userInfo && userInfo.isAdmin && (
+                    <NavDropdown title="Admin panel" id="admin-nav-dropdown">
+                      <LinkContainer to="/admin/users">
+                        <NavDropdown.Item>Users</NavDropdown.Item>
+                      </LinkContainer>
+                      <LinkContainer to="/admin/products">
+                        <NavDropdown.Item>Products</NavDropdown.Item>
+                      </LinkContainer>
+                    </NavDropdown>
                   )}
                 </Nav>
               </Navbar.Collapse>
@@ -160,18 +173,18 @@ function App() {
                 }
               />
               <Route
-                path="/about"
-                element={
-                  <ProtectedRoute>
-                    <AboutScreen />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
                 path="/branches"
                 element={
                   <ProtectedRoute>
                     <BranchesScreen />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/about"
+                element={
+                  <ProtectedRoute>
+                    <AboutScreen />
                   </ProtectedRoute>
                 }
               />
@@ -191,6 +204,22 @@ function App() {
                   </ProtectedRoute>
                 }
               />
+              <Route
+                path="/admin/products"
+                element={
+                  <AdminRoute>
+                    <ProductListScreen />
+                  </AdminRoute>
+                }
+              ></Route>
+              <Route
+                path="/admin/product/:id"
+                element={
+                  <AdminRoute>
+                    <ProductEditScreen />
+                  </AdminRoute>
+                }
+              ></Route>
             </Routes>
           </Container>
         </main>
