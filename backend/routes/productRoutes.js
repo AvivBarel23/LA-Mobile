@@ -23,7 +23,7 @@ productRouter.delete(
   isAuth,
   isAdmin,
   expressAsyncHandler(async (req, res) => {
-    const product = await Product.findById(req.params.id);
+    const product = await findById(Product, req.params.id);
     if (product) {
       await product.remove();
       res.send({ message: 'Product deleted' });
@@ -59,7 +59,7 @@ productRouter.put(
   isAdmin,
   expressAsyncHandler(async (req, res) => {
     const productId = req.params.id;
-    const product = await Product.findById(productId);
+    const product = await findById(Product, productId);
     if (product) {
       product.name = req.body.name;
       product.slug = req.body.slug;
