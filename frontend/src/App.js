@@ -215,7 +215,7 @@ function App() {
                     <ProductListScreen />
                   </AdminRoute>
                 }
-              ></Route>
+              />
               <Route
                 path="/admin/product/:id"
                 element={
@@ -223,7 +223,7 @@ function App() {
                     <ProductEditScreen />
                   </AdminRoute>
                 }
-              ></Route>
+              />
             </Routes>
           </Container>
         </main>
