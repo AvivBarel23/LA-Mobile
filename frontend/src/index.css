@@ -27,7 +27,8 @@ main {
 }
 
 .img-thumbnail {
-    height: 80px;
+  height: 150px;
+  width: 150px;
 }
 
 .product-info {
@@ -60,4 +61,8 @@ main {
 
 .text-bold {
     font-weight: bold;
+}
+
+#admin-nav-dropdown {
+  color: #ffc000;
 }
