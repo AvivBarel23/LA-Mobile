@@ -30,6 +30,7 @@ import Axios from 'axios';
 import AdminRoute from './components/AdminRoute';
 import ProductListScreen from './screens/ProductListScreen';
 import ProductEditScreen from './screens/ProductEditScreen';
+import UserListScreen from './screens/UserListScreen';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -208,6 +209,14 @@ function App() {
                   </ProtectedRoute>
                 }
               />
+              <Route
+                path="/admin/users"
+                element={
+                  <AdminRoute>
+                    <UserListScreen />
+                  </AdminRoute>
+                }
+              ></Route>
               <Route
                 path="/admin/products"
                 element={

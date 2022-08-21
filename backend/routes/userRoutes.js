@@ -2,10 +2,20 @@ import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import User from '../models/userModel.js';
 import bcrypt from 'bcryptjs';
-import { isAuth, generateToken } from '../utils.js';
-import { activityLogUpdate, findById, findOne, save } from '../persist.js';
+import { isAuth, isAdmin,generateToken } from '../utils.js';
+import { getAll,activityLogUpdate, findById, findOne, save } from '../persist.js';
 
 const userRouter = express.Router();
+
+userRouter.get(
+  '/',
+  isAuth,
+  isAdmin,
+  expressAsyncHandler(async (req, res) => {
+    const users = await getAll(User);
+    res.send(users);
+  })
+);
 
 userRouter.post(
   '/signin',
