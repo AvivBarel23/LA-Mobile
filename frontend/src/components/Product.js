@@ -13,6 +13,7 @@ const Product = (props) => {
     cart: { cartItems },
     userInfo,
   } = state;
+
   async function addToCartHandler(item) {
     if (!userInfo) {
       window.location.href = '/signin';
@@ -27,6 +28,7 @@ const Product = (props) => {
     }
     ctxDispatch({ type: 'CART_ADD_ITEM', payload: { ...item, quantity } });
   }
+
   return (
     <Card>
       <Link to={`/products/${product.slug}`}>

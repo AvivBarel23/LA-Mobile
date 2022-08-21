@@ -26,12 +26,16 @@ import StoreScreen from './screens/StoreScreen';
 import SearchBox from './components/SearchBox';
 import ProtectedRoute from './components/ProtectedRoute';
 import CookieService from './CookieService';
+import Axios from 'axios';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { cart, userInfo } = state;
 
-  const signOutHandler = () => {
+  const signOutHandler = async () => {
+    await Axios.post('/api/users/signout', {
+      username: userInfo.username,
+    });
     ctxDispatch({ type: 'USER_SIGNOUT' });
     CookieService.remove('userInfo');
     localStorage.removeItem('shippingAddress');

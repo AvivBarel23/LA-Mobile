@@ -3,7 +3,8 @@ import expressAsyncHandler from 'express-async-handler';
 import User from '../models/userModel.js';
 import bcrypt from 'bcryptjs';
 import { isAuth, generateToken } from '../utils.js';
-import { findById, findOne, save } from '../persist.js';
+import { activityLogUpdate, findById, findOne, save } from '../persist.js';
+
 const userRouter = express.Router();
 
 userRouter.post(
@@ -12,6 +13,7 @@ userRouter.post(
     const user = await findOne(User, { username: req.body.username });
     if (user) {
       if (bcrypt.compareSync(req.body.password, user.password)) {
+        await activityLogUpdate('login', user.username);
         res.send({
           _id: user._id,
           username: user.username,
@@ -21,6 +23,18 @@ userRouter.post(
         });
         return;
       }
+    }
+    res.status(401).send({ message: 'Invalid username or password' });
+  })
+);
+userRouter.post(
+  '/signout',
+  expressAsyncHandler(async (req, res) => {
+    const user = await findOne(User, { username: req.body.username });
+    if (user) {
+      await activityLogUpdate('logout', user.username);
+      res.status(200);
+      return;
     }
     res.status(401).send({ message: 'Invalid username or password' });
   })

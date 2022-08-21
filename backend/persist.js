@@ -1,6 +1,7 @@
 import Product from './models/productModel.js';
 import User from './models/userModel.js';
 import Order from './models/orderModel.js';
+import ActivityLog from './models/activityLogModel.js';
 
 export const save = async (obj) => {
   return obj.save();
@@ -47,5 +48,21 @@ export const presentProducts = async (
     .sort(sortOrder)
     .skip(skipSize)
     .limit(limitSize);
+};
+
+export const activityLogUpdate = async (type, username) => {
+  const date = `${type}: ${new Date().toString()}`;
+  const user = await findOne(ActivityLog, { username: username });
+  if (user) {
+    user.logs.push(date);
+    // ActivityLog.updateMany({ username: username }, { $push: { logs: [date] } });
+    await save(user);
+  } else {
+    const activityUpdate = new ActivityLog({
+      logs: [date],
+      username: username,
+    });
+    await save(activityUpdate);
+  }
 };
 //testing
