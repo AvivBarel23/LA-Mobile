@@ -50,19 +50,22 @@ export const presentProducts = async (
     .limit(limitSize);
 };
 
-export const activityLogUpdate = async (type, username) => {
-  const date = `${type}: ${new Date().toString()}`;
-  const user = await findOne(ActivityLog, { username: username });
+export const activityLogUpdate = async (type, userId) => {
+  const now = new Date();
+  const date = {
+    type: type,
+    date: now.toLocaleDateString(),
+    time: now.toLocaleTimeString(),
+  };
+  const user = await findOne(ActivityLog, { userId: userId });
   if (user) {
     user.logs.push(date);
-    // ActivityLog.updateMany({ username: username }, { $push: { logs: [date] } });
     await save(user);
   } else {
     const activityUpdate = new ActivityLog({
+      userId: userId,
       logs: [date],
-      username: username,
     });
     await save(activityUpdate);
   }
 };
-//testing

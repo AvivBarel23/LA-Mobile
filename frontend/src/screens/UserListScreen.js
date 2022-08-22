@@ -59,7 +59,7 @@ export default function UserListScreen() {
       </Helmet>
       <h1>Users</h1>
       {loading ? (
-        <LoadingBox></LoadingBox>
+        <LoadingBox />
       ) : error ? (
         <MessageBox variant="danger">{error}</MessageBox>
       ) : (
@@ -82,9 +82,11 @@ export default function UserListScreen() {
                   <Button
                     type="button"
                     variant="light"
-                    onClick={() => navigate(`/admin/user/logins/${user._id}`)}
+                    onClick={() =>
+                      navigate(`/admin/users/activityLogs/${user._id}`)
+                    }
                   >
-                    Logins
+                    Activity Logs
                   </Button>
                   &nbsp;
                   <Button

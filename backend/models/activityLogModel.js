@@ -2,13 +2,13 @@ import mongoose from 'mongoose';
 
 const activityLogSchema = mongoose.Schema(
   {
-    username: {
+    userId: {
       type: String,
       required: true,
       unique: true,
     },
     logs: {
-      type: [String],
+      type: [Object],
       required: true,
     },
   },
