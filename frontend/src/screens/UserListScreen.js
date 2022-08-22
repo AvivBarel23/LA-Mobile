@@ -65,6 +65,7 @@ export default function UserListScreen() {
   const handleChange = (e) => {
     const { value } = e.target;
     if (value === '') {
+      setNoResultsWereFound(false);
       setSearchResults(users);
       return;
     }
