@@ -30,7 +30,7 @@ export default function SignupScreen() {
     }
     try {
       const { data } = await Axios.post('/api/users/signup', {
-        name,
+        username: name,
         email,
         password,
       });
