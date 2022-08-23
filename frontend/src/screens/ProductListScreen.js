@@ -148,10 +148,10 @@ export default function ProductListScreen() {
         </Col>
       </Row>
 
-      {loadingCreate && <LoadingBox></LoadingBox>}
-      {loadingDelete && <LoadingBox></LoadingBox>}
+      {loadingCreate && <LoadingBox />}
+      {loadingDelete && <LoadingBox />}
       {loading ? (
-        <LoadingBox></LoadingBox>
+        <LoadingBox />
       ) : error ? (
         <MessageBox variant="danger">{error}</MessageBox>
       ) : (
