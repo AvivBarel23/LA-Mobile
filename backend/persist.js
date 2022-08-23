@@ -1,6 +1,7 @@
 import Product from './models/productModel.js';
 import User from './models/userModel.js';
 import Order from './models/orderModel.js';
+import ActivityLog from './models/activityLogModel.js';
 
 export const save = async (obj) => {
   return obj.save();
@@ -48,4 +49,23 @@ export const presentProducts = async (
     .skip(skipSize)
     .limit(limitSize);
 };
-//testing
+
+export const activityLogUpdate = async (type, userId) => {
+  const now = new Date();
+  const date = {
+    type: type,
+    date: now.toLocaleDateString(),
+    time: now.toLocaleTimeString(),
+  };
+  const user = await findOne(ActivityLog, { userId: userId });
+  if (user) {
+    user.logs.push(date);
+    await save(user);
+  } else {
+    const activityUpdate = new ActivityLog({
+      userId: userId,
+      logs: [date],
+    });
+    await save(activityUpdate);
+  }
+};

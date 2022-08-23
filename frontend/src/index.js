@@ -1,21 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { HelmetProvider } from 'react-helmet-async';
+import {HelmetProvider} from 'react-helmet-async';
 import 'bootstrap/dist/css/bootstrap.css';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { StoreProvider } from './Store';
+import {StoreProvider} from './Store';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <StoreProvider>
-      <HelmetProvider>
-        <App />
-      </HelmetProvider>
-    </StoreProvider>
-  </React.StrictMode>
+    <React.StrictMode>
+        <StoreProvider>
+            <HelmetProvider>
+                <App/>
+            </HelmetProvider>
+        </StoreProvider>
+    </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

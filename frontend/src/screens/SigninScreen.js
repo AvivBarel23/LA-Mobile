@@ -35,11 +35,11 @@ export default function SigninScreen() {
         username,
         password,
       });
-      ctxDispatch({ type: 'USER_SIGNIN', payload: data });
       const date = new Date();
       date.setTime(date.getTime() + expiresAt);
       const options = { path: '/', expires: date };
       CookieService.set('userInfo', JSON.stringify(data), options);
+      ctxDispatch({ type: 'USER_SIGNIN', payload: data });
       navigate(redirect || '/');
     } catch (err) {
       toast.error(getError(err));

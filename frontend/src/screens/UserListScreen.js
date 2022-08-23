@@ -118,19 +118,19 @@ export default function UserListScreen() {
                     <td>{user.isAdmin ? 'YES' : 'NO'}</td>
                     <td>
                       <Button
-                        type="button"
-                        variant="light"
-                        onClick={() =>
-                          navigate(`/admin/user/logins/${user._id}`)
-                        }
+                          type="button"
+                          variant="light"
+                          onClick={() =>
+                              navigate(`/admin/users/activityLogs/${user._id}`)
+                          }
                       >
-                        Logins
+                        Activity Logs
                       </Button>
                       &nbsp;
                       <Button
-                        type="button"
-                        variant="light"
-                        onClick={() => navigate(`/admin/user/cart/${user._id}`)}
+                          type="button"
+                          variant="light"
+                          onClick={() => navigate(`/admin/users/cart/${user._id}`)}
                       >
                         Cart
                       </Button>

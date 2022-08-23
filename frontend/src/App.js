@@ -26,16 +26,28 @@ import StoreScreen from './screens/StoreScreen';
 import SearchBox from './components/SearchBox';
 import ProtectedRoute from './components/ProtectedRoute';
 import CookieService from './CookieService';
+import Axios from 'axios';
 import AdminRoute from './components/AdminRoute';
 import ProductListScreen from './screens/ProductListScreen';
 import ProductEditScreen from './screens/ProductEditScreen';
 import UserListScreen from './screens/UserListScreen';
+import UserActivityScreen from './screens/UserActivityScreen';
+import UserCartScreen from './screens/UserCartScreen';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { cart, userInfo } = state;
 
-  const signOutHandler = () => {
+  const signOutHandler = async () => {
+    await Axios.post(
+      '/api/users/signout',
+      {
+        userId: userInfo._id,
+      },
+      {
+        headers: { Authorization: `Bearer ${userInfo.token}` },
+      }
+    );
     ctxDispatch({ type: 'USER_SIGNOUT' });
     CookieService.remove('userInfo');
     localStorage.removeItem('shippingAddress');
@@ -212,7 +224,7 @@ function App() {
                     <UserListScreen />
                   </AdminRoute>
                 }
-              ></Route>
+              />
               <Route
                 path="/admin/products"
                 element={
@@ -220,7 +232,7 @@ function App() {
                     <ProductListScreen />
                   </AdminRoute>
                 }
-              ></Route>
+              />
               <Route
                 path="/admin/product/:id"
                 element={
@@ -228,7 +240,23 @@ function App() {
                     <ProductEditScreen />
                   </AdminRoute>
                 }
-              ></Route>
+              />
+              <Route
+                path="/admin/users/cart/:id"
+                element={
+                  <AdminRoute>
+                    <UserCartScreen />
+                  </AdminRoute>
+                }
+              />
+              <Route
+                path="/admin/users/activityLogs/:id"
+                element={
+                  <AdminRoute>
+                    <UserActivityScreen />
+                  </AdminRoute>
+                }
+              />
             </Routes>
           </Container>
         </main>

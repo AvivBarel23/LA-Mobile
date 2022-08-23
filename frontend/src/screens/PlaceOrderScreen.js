@@ -80,7 +80,7 @@ export default function PlaceOrderScreen() {
 
   return (
     <div>
-      <CheckoutSteps step1 step2 step3 step4></CheckoutSteps>
+      <CheckoutSteps step1 step2 step3 step4 />
       <Helmet>
         <title>Preview Order</title>
       </Helmet>
@@ -124,7 +124,7 @@ export default function PlaceOrderScreen() {
                           src={item.image}
                           alt={item.name}
                           className="img-fluid rounded img-thumbnail"
-                        ></img>{' '}
+                        />{' '}
                         <Link to={`/product/${item.slug}`}>{item.name}</Link>
                       </Col>
                       <Col md={3}>
@@ -176,7 +176,7 @@ export default function PlaceOrderScreen() {
                       Place Order
                     </Button>
                   </div>
-                  {loading && <LoadingBox></LoadingBox>}
+                  {loading && <LoadingBox />}
                 </ListGroup.Item>
               </ListGroup>
             </Card.Body>
