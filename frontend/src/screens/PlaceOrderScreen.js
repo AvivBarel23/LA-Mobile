@@ -80,7 +80,7 @@ export default function PlaceOrderScreen() {
 
   return (
     <div>
-      <CheckoutSteps step1 step2 step3 step4/>
+      <CheckoutSteps step1 step2 step3 step4 />
       <Helmet>
         <title>Preview Order</title>
       </Helmet>

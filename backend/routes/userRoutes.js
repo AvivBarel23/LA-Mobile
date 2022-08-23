@@ -24,6 +24,21 @@ userRouter.get(
   })
 );
 
+userRouter.get(
+  '/admin',
+  isAuth,
+  isAdmin,
+  expressAsyncHandler(async (req, res) => {
+    console.log('req', req);
+    const user = await findOne(User, { _id: req.query.userId });
+    if (user) {
+      res.send(user);
+    } else {
+      res.status(404).send({ message: "user wasn't found" });
+    }
+  })
+);
+
 userRouter.post(
   '/signin',
   expressAsyncHandler(async (req, res) => {
@@ -46,6 +61,7 @@ userRouter.post(
 );
 userRouter.post(
   '/signout',
+  isAuth,
   expressAsyncHandler(async (req, res) => {
     const user = await findOne(User, { _id: req.body.userId });
     if (user) {

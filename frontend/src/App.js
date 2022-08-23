@@ -32,16 +32,22 @@ import ProductListScreen from './screens/ProductListScreen';
 import ProductEditScreen from './screens/ProductEditScreen';
 import UserListScreen from './screens/UserListScreen';
 import UserActivityScreen from './screens/UserActivityScreen';
-// import UserCartScreen from './screens/UserCartScreen';
+import UserCartScreen from './screens/UserCartScreen';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { cart, userInfo } = state;
 
   const signOutHandler = async () => {
-    await Axios.post('/api/users/signout', {
-      userId: userInfo._id,
-    });
+    await Axios.post(
+      '/api/users/signout',
+      {
+        userId: userInfo._id,
+      },
+      {
+        headers: { Authorization: `Bearer ${userInfo.token}` },
+      }
+    );
     ctxDispatch({ type: 'USER_SIGNOUT' });
     CookieService.remove('userInfo');
     localStorage.removeItem('shippingAddress');
@@ -235,15 +241,14 @@ function App() {
                   </AdminRoute>
                 }
               />
-              {/*<Route*/}
-              {/*  path="/admin/cart/:id"*/}
-              {/*  element={*/}
-              {/*    <AdminRoute>*/}
-              {/*      <UserCartScreen />*/}
-              {/*    </AdminRoute>*/}
-              {/*  }*/}
-              {/*/>*/}
-
+              <Route
+                path="/admin/users/cart/:id"
+                element={
+                  <AdminRoute>
+                    <UserCartScreen />
+                  </AdminRoute>
+                }
+              />
               <Route
                 path="/admin/users/activityLogs/:id"
                 element={

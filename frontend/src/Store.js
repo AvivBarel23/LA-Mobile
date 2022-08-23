@@ -1,5 +1,6 @@
-import { createContext, useReducer } from 'react';
+import { createContext, useEffect, useReducer } from 'react';
 import CookieService from './CookieService';
+import axios from 'axios';
 
 export const Store = createContext();
 const initialState = {
@@ -7,22 +8,11 @@ const initialState = {
     ? CookieService.get('userInfo')
     : null,
   cart: {
-    shippingAddress: localStorage.getItem('shippingAddress')
-      ? JSON.parse(localStorage.getItem('shippingAddress'))
-      : {},
-    paymentMethod: localStorage.getItem('paymentMethod')
-      ? localStorage.getItem('paymentMethod')
-      : '',
-    cartItems: localStorage.getItem('cartItems')
-      ? JSON.parse(localStorage.getItem('cartItems'))
-      : [],
+    shippingAddress: {},
+    paymentMethod: '',
+    cartItems: [],
   },
-  purchases: localStorage.getItem('purchases')
-    ? JSON.parse(localStorage.getItem('purchases'))
-    : [],
-  activityLog: localStorage.getItem('activityLog')
-    ? JSON.parse(localStorage.getItem('activityLog'))
-    : [],
+  wasFetchedFromDb: false,
 };
 
 function reducer(state, action) {
@@ -56,12 +46,8 @@ function reducer(state, action) {
     case 'USER_SIGNOUT': {
       return {
         ...state,
+        wasFetchedFromDb: false,
         userInfo: null,
-        cart: {
-          cartItems: [],
-          shippingAddress: {},
-          paymentMethod: '',
-        },
       };
     }
 
@@ -78,6 +64,9 @@ function reducer(state, action) {
         cart: { ...state.cart, paymentMethod: action.payload },
       };
     }
+    case 'INITIALIZE_CART': {
+      return action.payload;
+    }
 
     default:
       return state;
@@ -86,6 +75,55 @@ function reducer(state, action) {
 
 export const StoreProvider = (props) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const userInfo = state?.userInfo;
+  const flag = userInfo !== null && !state.wasFetchedFromDb;
+
+  useEffect(() => {
+    async function fetchData() {
+      if (flag) {
+        debugger;
+        const { data } = await axios.get(
+          `/api/cart?userId=${state.userInfo._id}`,
+          {
+            headers: { Authorization: `Bearer ${state.userInfo.token}` },
+          }
+        );
+        if (data) {
+          dispatch({
+            type: 'INITIALIZE_CART',
+            payload: {
+              ...state,
+              cart: {
+                shippingAddress: localStorage.getItem('shippingAddress')
+                  ? JSON.parse(localStorage.getItem('shippingAddress'))
+                  : data?.cart.shippingAddress,
+                paymentMethod: localStorage.getItem('paymentMethod')
+                  ? localStorage.getItem('paymentMethod')
+                  : data?.cart.paymentMethod,
+                cartItems: localStorage.getItem('cartItems')
+                  ? JSON.parse(localStorage.getItem('cartItems'))
+                  : data?.cart.cartItems,
+              },
+              wasFetchedFromDb: true,
+            },
+          });
+        }
+      }
+    }
+    fetchData();
+  }, [flag]);
+  useEffect(() => {
+    if (state.wasFetchedFromDb) {
+      axios.put(
+        `/api/cart`,
+        { userId: state.userInfo._id, cart: state.cart },
+        {
+          headers: { Authorization: `Bearer ${state.userInfo.token}` },
+        }
+      );
+    }
+  }, [state]);
+
   const value = { state, dispatch };
   return <Store.Provider value={value}>{props.children}</Store.Provider>;
 };

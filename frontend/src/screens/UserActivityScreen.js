@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useReducer, useContext } from 'react';
+import React, { useEffect, useReducer, useContext, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
@@ -21,6 +21,7 @@ const reducer = (state, action) => {
 };
 
 export default function UserActivityScreen() {
+  const [currentUser, setCurrentUser] = useState({});
   const params = useParams();
   const { id: userId } = params;
   const { state } = useContext(Store);
@@ -38,7 +39,12 @@ export default function UserActivityScreen() {
 
           { headers: { Authorization: `Bearer ${userInfo.token}` } }
         );
-        console.log('data', data);
+        const { data: currentUserData } = await axios.get(
+          `/api/users/admin?userId=${userId}`,
+
+          { headers: { Authorization: `Bearer ${userInfo.token}` } }
+        );
+        setCurrentUser(currentUserData);
         dispatch({ type: 'FETCH_SUCCESS', payload: data });
       } catch (error) {
         dispatch({
@@ -55,7 +61,7 @@ export default function UserActivityScreen() {
         <title>Activity Logs</title>
       </Helmet>
 
-      <h1>Activity Logs</h1>
+      <h1>Activity Logs - {currentUser.username}</h1>
       {loading ? (
         <LoadingBox />
       ) : error ? (
