@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useContext, useEffect, useReducer } from 'react';
+import React, { useContext, useEffect, useReducer, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Button from 'react-bootstrap/Button';
@@ -52,6 +52,34 @@ export default function UserListScreen() {
     };
     fetchData();
   }, [userInfo]);
+
+  const [searchResults, setSearchResults] = useState([]);
+  const [noResultsWereFound, setNoResultsWereFound] = useState(false);
+
+  useEffect(() => {
+    if (users) {
+      setSearchResults(users);
+    }
+  }, [users]);
+
+  const handleChange = (e) => {
+    const { value } = e.target;
+    if (value === '') {
+      setNoResultsWereFound(false);
+      setSearchResults(users);
+      return;
+    }
+    const filteredUsers = users.filter((user) =>
+      user.username.toLowerCase().startsWith(value)
+    );
+    if (filteredUsers.length === 0) {
+      setNoResultsWereFound(true);
+    } else {
+      setNoResultsWereFound(false);
+    }
+    setSearchResults(filteredUsers);
+  };
+
   return (
     <div>
       <Helmet>
@@ -59,48 +87,59 @@ export default function UserListScreen() {
       </Helmet>
       <h1>Users</h1>
       {loading ? (
-        <LoadingBox />
+        <LoadingBox></LoadingBox>
       ) : error ? (
         <MessageBox variant="danger">{error}</MessageBox>
       ) : (
-        <table className="table">
-          <thead>
-            <tr>
-              <th>USERNAME</th>
-              <th>EMAIL</th>
-              <th>IS ADMIN</th>
-              <th>VIEW</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.map((user) => (
-              <tr key={user._id}>
-                <td>{user.username}</td>
-                <td>{user.email}</td>
-                <td>{user.isAdmin ? 'YES' : 'NO'}</td>
-                <td>
-                  <Button
-                    type="button"
-                    variant="light"
-                    onClick={() =>
-                      navigate(`/admin/users/activityLogs/${user._id}`)
-                    }
-                  >
-                    Activity Logs
-                  </Button>
-                  &nbsp;
-                  <Button
-                    type="button"
-                    variant="light"
-                    onClick={() => navigate(`/admin/users/cart/${user._id}`)}
-                  >
-                    Cart
-                  </Button>
-                </td>
+        <div>
+          <input
+            className="search"
+            onChange={handleChange}
+            type="text"
+            name="searchUser"
+            placeholder="Type a username..."
+          />
+          <table className="table">
+            <thead>
+              <tr>
+                <th>USERNAME</th>
+                <th>EMAIL</th>
+                <th>IS ADMIN</th>
+                <th>VIEW</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {noResultsWereFound && <div>No such users!</div>}
+              {!noResultsWereFound &&
+                searchResults.map((user) => (
+                  <tr key={user._id}>
+                    <td>{user.username}</td>
+                    <td>{user.email}</td>
+                    <td>{user.isAdmin ? 'YES' : 'NO'}</td>
+                    <td>
+                      <Button
+                          type="button"
+                          variant="light"
+                          onClick={() =>
+                              navigate(`/admin/users/activityLogs/${user._id}`)
+                          }
+                      >
+                        Activity Logs
+                      </Button>
+                      &nbsp;
+                      <Button
+                          type="button"
+                          variant="light"
+                          onClick={() => navigate(`/admin/users/cart/${user._id}`)}
+                      >
+                        Cart
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   );

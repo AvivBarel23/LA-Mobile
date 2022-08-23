@@ -13,7 +13,7 @@ export default function AboutScreen() {
         <p>
           The story behind LA-Mobile begins around 2019, when two entrepreneurs
           Aviv(Backend engineer) and Lior(Software Engineer) met at Reichman
-          University and beacme friends.
+          University and became friends.
           <br />
           <i>LA</i> comes from their initials and this is how the name was
           chosen. Both of them are tech-geeks and Apple fans.

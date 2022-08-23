@@ -72,7 +72,11 @@ const ProductScreen = () => {
     <div>
       <Row>
         <Col md={6}>
-          <img src={product.image} alt={product.name} />
+          <img
+            src={product.image}
+            alt={product.name}
+            className="product-image"
+          />
         </Col>
         <Col md={3}>
           <ListGroup variant="flush">
