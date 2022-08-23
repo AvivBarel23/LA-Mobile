@@ -29,7 +29,6 @@ userRouter.get(
   isAuth,
   isAdmin,
   expressAsyncHandler(async (req, res) => {
-    console.log('req', req);
     const user = await findOne(User, { _id: req.query.userId });
     if (user) {
       res.send(user);
@@ -76,6 +75,10 @@ userRouter.post(
 userRouter.post(
   '/signup',
   expressAsyncHandler(async (req, res) => {
+    const checkUser = await findOne(User, { _id: req.body.userId });
+    if (checkUser) {
+      res.status(401).send({ message: 'user already exists' });
+    }
     const newUser = new User({
       username: req.body.username,
       email: req.body.email,

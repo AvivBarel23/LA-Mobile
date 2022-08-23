@@ -44,10 +44,9 @@ cartRouter.get(
   expressAsyncHandler(async (req, res) => {
     const cart = await findOne(Cart, { userId: req.query.userId });
     const cartItems = cart?.cart.cartItems;
-    if (cartItems) {
-      res.send(cartItems);
-    } else {
-      res.send([]);
+    if (cart) {
+      if (cartItems) res.send(cartItems);
+      else res.send([]);
     }
     res.status(401).send({ message: 'user cart doesnt exists' });
   })

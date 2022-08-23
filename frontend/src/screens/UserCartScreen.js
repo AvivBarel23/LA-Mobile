@@ -12,7 +12,6 @@ const reducer = (state, action) => {
     case 'FETCH_REQUEST':
       return { ...state, loading: true };
     case 'FETCH_SUCCESS':
-      console.log(action.payload);
       return { ...state, cartItems: action.payload, loading: false };
     case 'FETCH_FAIL':
       return { ...state, loading: false, error: action.payload };
@@ -31,7 +30,6 @@ export default function UserCartScreen() {
     loading: true,
     error: '',
   });
-  console.log('cartItems', cartItems);
   useEffect(() => {
     const fetchData = async () => {
       dispatch({ type: 'FETCH_REQUEST' });
