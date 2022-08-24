@@ -1,43 +1,37 @@
-import { fetchData } from './fetch';
-import { findOne } from './persist';
-import Product from './models/productModel';
-import User from './models/userModel';
+import { fetchData } from './fetchHelper';
 
 export const connectAsUser = async (username, password) => {
   return await fetchData(
-    '/api/users/signin',
+    'http://localhost:5000/api/users/signin',
     {
       username,
       password,
     },
-    'POST',
-    {}
+    'POST'
   );
 };
 
 export const signUpAsUser = async (username, email, password) => {
   return await fetchData(
-    '/api/users/signup',
+    'http://localhost:5000/api/users/signup',
     {
       username,
       email,
       password,
     },
-    'POST',
-    {}
+    'POST'
   );
 };
 
 export const changePassword = async (username, email, password) => {
   return await fetchData(
-    '/api/users/profile',
+    'http://localhost:5000/api/users/profile',
     {
       username,
       email,
       password,
     },
-    'POST',
-    {}
+    'POST'
   );
 };
 
@@ -50,7 +44,14 @@ export const updateCart = async (user, products) => {
     paymentMethod: '',
     cartItems: products,
   };
-  await fetchData(`/api/cart`, { userId: user._id, cart }, 'PUT', {
-    Authorization: `Bearer ${user.token}`,
-  });
+  await fetchData(
+    `http://localhost:5000/api/cart`,
+    { userId: user._id, cart: cart },
+    'PUT',
+    {
+      Authorization: `Bearer ${user.token}`,
+    }
+  );
 };
+
+export const getRandomSuffix = () => Math.floor(Math.random() * 10000000000);
