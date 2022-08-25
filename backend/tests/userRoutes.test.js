@@ -5,7 +5,6 @@ import {
   signUpAsUser,
 } from '../helpersTest.js';
 
-
 describe('Testing user routes', () => {
   test('Connect as admin user', async () => {
     const username = 'admin';
