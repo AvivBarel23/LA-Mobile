@@ -23,7 +23,7 @@ export const signUpAsUser = async (username, email, password) => {
   );
 };
 
-export const changePassword = async (username, email, password) => {
+export const changePassword = async (username, email, password, headers) => {
   return await fetchData(
     'http://localhost:5000/api/users/profile',
     {
@@ -31,7 +31,8 @@ export const changePassword = async (username, email, password) => {
       email,
       password,
     },
-    'POST'
+    'PUT',
+    headers
   );
 };
 
