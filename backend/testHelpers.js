@@ -1,4 +1,4 @@
-import { fetchData } from './fetchHelper';
+import { fetchData, fetchWithGet } from './fetchHelper';
 
 export const connectAsUser = async (username, password) => {
   return await fetchData(
@@ -53,6 +53,17 @@ export const updateCart = async (user, products) => {
       Authorization: `Bearer ${user.token}`,
     }
   );
+};
+
+export const getUserCart = async (url, user) => {
+  return await fetchWithGet(url, {
+    Authorization: `Bearer ${user.token}`,
+  });
+};
+export const getUserCartItemsAsAdmin = async (url, user) => {
+  return await fetchWithGet(url, {
+    Authorization: `Bearer ${user.token}`,
+  });
 };
 
 export const getRandomSuffix = () => Math.floor(Math.random() * 10000000000);

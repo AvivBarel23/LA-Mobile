@@ -3,7 +3,7 @@ import {
   connectAsUser,
   getRandomSuffix,
   signUpAsUser,
-} from '../helpersTest.js';
+} from '../testHelpers.js';
 
 describe('Testing user routes', () => {
   test('Connect as admin user', async () => {
