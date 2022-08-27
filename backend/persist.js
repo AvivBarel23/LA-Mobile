@@ -2,6 +2,9 @@ import Product from './models/productModel.js';
 import User from './models/userModel.js';
 import Order from './models/orderModel.js';
 import ActivityLog from './models/activityLogModel.js';
+import multer from 'multer';
+import { v4 as uuidv4 } from 'uuid';
+import path from 'path';
 
 export const save = async (obj) => {
   return obj.save();
@@ -69,3 +72,28 @@ export const activityLogUpdate = async (type, userId) => {
     await save(activityUpdate);
   }
 };
+
+export const multerStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, './public/images');
+  },
+  filename: (req, file, cb) => {
+    const ext = file.mimetype.split('/')[1];
+    const generatedFilename = uuidv4();
+    cb(null, `${generatedFilename}.${ext}`);
+  },
+});
+
+export const upload = multer({
+  storage: multerStorage,
+  fileFilter: function (req, file, callback) {
+    const ext = path.extname(file.originalname);
+    if (ext !== '.png' && ext !== '.jpg' && ext !== '.gif' && ext !== '.jpeg') {
+      return callback(new Error('Only images are allowed'));
+    }
+    callback(null, true);
+  },
+  limits: {
+    fileSize: 1024 * 1024 * 5,
+  },
+});

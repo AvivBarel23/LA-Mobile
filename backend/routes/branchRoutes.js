@@ -1,20 +1,23 @@
 import express from 'express';
 import data from '../data.js';
+import { insertMany } from '../persist.js';
+import expressAsyncHandler from 'express-async-handler';
+import Branch from '../models/branchModel.js';
 
 const branchRouter = express.Router();
 const { branches } = data;
 
-branchRouter.get('/', (req, res) => {
-  res.send(branches);
-});
+branchRouter.get(
+  '/',
+  expressAsyncHandler(async (req, res) => {
+    res.send(await getAll(Branch));
+  })
+);
 
-branchRouter.get('/slug/:slug', (req, res) => {
-  const branch = branches.find((b) => req.params.slug === b.slug);
-  if (branch) {
-    res.send(branch);
-  } else {
-    res.status(404).send({ message: "Branch doesn't exist" });
-  }
-});
-
+branchRouter.post(
+  '/',
+  expressAsyncHandler(async (req, res) => {
+    await insertMany(Branch, branches);
+  })
+);
 export default branchRouter;
