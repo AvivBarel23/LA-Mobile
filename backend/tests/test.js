@@ -11,7 +11,7 @@ import {
 } from '../testHelpers';
 
 describe('Test Routes', () => {
-  describe('Testing user routes', () => {
+  describe('Testing User routes', () => {
     test('Connect as admin user', async () => {
       const username = 'admin';
       const password = 'admin';
@@ -78,7 +78,7 @@ describe('Test Routes', () => {
       expect(originalUser.email).toEqual(email);
     });
   });
-  describe('Testing cart routes', () => {
+  describe('Testing Cart routes', () => {
     test('get user cart', async () => {
       const username = 'test';
       const password = 'test';
@@ -109,8 +109,7 @@ describe('Test Routes', () => {
       await updateCart(testUser, []);
     });
   });
-
-  describe('Order tests', () => {
+  describe('Testing Order routes', () => {
     let testUser;
     const username = 'test';
     const password = 'test';
