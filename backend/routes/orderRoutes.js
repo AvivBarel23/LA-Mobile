@@ -56,7 +56,7 @@ orderRouter.put(
       order.isPaid = true;
       order.paidAt = Date.now();
 
-      const updatedOrder = await order.save();
+      const updatedOrder = await save(order);
       res.send({ message: 'Order paid', order: updatedOrder });
     } else {
       res.status(404).send({ message: 'Order not found' });

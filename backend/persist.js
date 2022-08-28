@@ -23,6 +23,9 @@ export const find = async (table, query) => {
   }
   return results;
 };
+export const remove = async (obj) => {
+  return obj.remove();
+};
 
 export const getAll = async (table) => {
   return table.find();

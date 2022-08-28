@@ -1,12 +1,17 @@
 import {
+  addProduct,
   changePassword,
   checkEqualityOfArrays,
   connectAsUser,
+  deleteProduct,
+  getProductById,
   getRandomSuffix,
   getUserCart,
   getUserCartItemsAsAdmin,
   signUpAsUser,
   updateCart,
+  updateProduct,
+  getProductByName,
 } from '../testHelpers';
 
 describe('Test Routes', () => {
@@ -106,6 +111,60 @@ describe('Test Routes', () => {
       );
       checkEqualityOfArrays(cartItemsFromBackend, products);
       await updateCart(testUser, []);
+    });
+  });
+  describe('Testing product routes', () => {
+    let adminUser;
+    beforeAll(async () => {
+      adminUser = await connectAsUser('admin', 'admin');
+    });
+    test('update new product', async () => {
+      const name = 'test1';
+      const slug = 'test1-slug';
+      const price = '123456';
+      const image = '/images/f78834a4-792f-4c41-a2c0-7811d1621289.png'; //how to upload an image -> can we compare two image ?
+      const countInStock = 4;
+      const description = 'test description';
+      const data = {
+        _id: '630a8f4318db4dbd90d7217b',
+        name,
+        slug,
+        price,
+        image,
+        countInStock,
+        description,
+      };
+
+      await updateProduct(
+        'http://localhost:5000/api/products?id=630a8f4318db4dbd90d7217b',
+        data,
+        adminUser
+      );
+      const updatedProduct = await getProductByName(
+        'http://localhost:5000/api/products?id=630a8f4318db4dbd90d7217b',
+        adminUser
+      );
+      expect(updatedProduct.name).toEqual(name);
+      expect(updatedProduct.slug).toEqual(slug);
+      expect(updatedProduct.price).toEqual(price);
+      expect(updatedProduct.countInStock).toEqual(countInStock);
+      expect(updatedProduct.description).toEqual(description);
+    });
+    test('add product', async () => {
+      const newProduct = await addProduct(adminUser);
+      expect(newProduct.product).not.toBeNull();
+      expect(newProduct.message).toEqual('Product Created');
+    });
+
+    test('delete product', async () => {
+      await deleteProduct('http://localhost:5000/api/products?id=', adminUser);
+      const notFoundProduct = await getProductById(
+        'http://localhost:5000/api/products?id=',
+        adminUser
+      );
+      expect(notFoundProduct.product).toBeNull();
+      expect(notFoundProduct.message).toEqual('Product not found');
+      expect(notFoundProduct.status).toEqual(404);
     });
   });
 });

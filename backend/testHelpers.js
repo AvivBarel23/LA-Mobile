@@ -66,4 +66,29 @@ export const getUserCartItemsAsAdmin = async (url, user) => {
   });
 };
 
+export const getProductByName = async (url, user) => {
+  return await fetchWithGet(url, {
+    Authorization: `Bearer ${user.token}`,
+  });
+};
+
+export const addProduct = async (user) => {
+  return await fetchData('http://localhost:5000/api/products', {}, 'POST', {
+    Authorization: `Bearer ${user.token}`,
+  });
+};
+
+export const updateProduct = async (url, data, user) => {
+  return await fetchData(url, data, 'PUT', {
+    'Content-Type': 'multipart/form-data',
+    authorization: `Bearer ${user.token}`,
+  });
+};
+
+export const deleteProduct = async (url, user) => {
+  return await fetchData(url, {
+    Authorization: `Bearer ${user.token}`,
+  });
+};
+
 export const getRandomSuffix = () => Math.floor(Math.random() * 10000000000);
