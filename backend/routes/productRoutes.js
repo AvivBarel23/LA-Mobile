@@ -86,10 +86,10 @@ productRouter.get(
     const { query } = req;
     const page = query.page || 1;
     const pageSize = query.pageSize || PAGE_SIZE;
+    const skipSize = pageSize * (page - 1);
 
-    const products = await find(Product)
-      .skip(pageSize * (page - 1))
-      .limit(pageSize);
+    const products = await presentProducts({}, {}, skipSize, pageSize);
+
     const countProducts = await countDocuments(Product);
     res.send({
       products,
