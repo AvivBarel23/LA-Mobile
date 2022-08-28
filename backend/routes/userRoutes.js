@@ -86,6 +86,18 @@ userRouter.post(
     });
     const user = await save(newUser);
     await activityLogUpdate('sign up', user._id);
+
+    const cartDoc = new Cart({
+      userId: user._id,
+      cart: {
+        shippingAddress: {},
+        paymentMethod: '',
+        cartItems: [],
+      },
+      wasFetchedFromDb: false,
+    });
+    await save(cartDoc);
+
     res.send({
       _id: user._id,
       username: user.username,
