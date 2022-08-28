@@ -221,7 +221,7 @@ describe('Test Routes', () => {
     const countInStock = 1;
     const description = 'This is a test product';
     const data = {
-      _id: '6300d4f05246a81441a4cef2',
+      _id: '',
       name,
       slug,
       price,
@@ -260,13 +260,12 @@ describe('Test Routes', () => {
     });
 
     test('delete product', async () => {
-      const productId = '6300d4f05246a81441a4cef2';
       await deleteProduct(
-        `http://localhost:5000/api/products/${productId}`,
+        `http://localhost:5000/api/products/${data._id}`,
         adminUser
       );
       const notFoundProduct = await getProductById(
-        `http://localhost:5000/api/products/${productId}`,
+        `http://localhost:5000/api/products/${data._id}`,
         adminUser
       );
       expect(notFoundProduct.product).toBeUndefined();
