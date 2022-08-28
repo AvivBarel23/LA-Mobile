@@ -72,7 +72,7 @@ export const getProductByName = async (url, user) => {
   });
 };
 
-export const addProduct = async (user) => {
+export const addProduct = async (user, body) => {
   return await fetchData('http://localhost:5000/api/products', {}, 'POST', {
     Authorization: `Bearer ${user.token}`,
   });
@@ -86,7 +86,13 @@ export const updateProduct = async (url, data, user) => {
 };
 
 export const deleteProduct = async (url, user) => {
-  return await fetchData(url, {
+  return await fetchData(url, {}, 'DELETE', {
+    Authorization: `Bearer ${user.token}`,
+  });
+};
+
+export const getProductById = async (url, user) => {
+  return await fetchWithGet(url, {
     Authorization: `Bearer ${user.token}`,
   });
 };

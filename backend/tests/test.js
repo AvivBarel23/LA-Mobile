@@ -115,56 +115,63 @@ describe('Test Routes', () => {
   });
   describe('Testing product routes', () => {
     let adminUser;
+    const name = 'Test product';
+    const slug = 'test-product';
+    const price = 100;
+    const image = '/images/f78834a4-792f-4c41-a2c0-7811d1621289.png'; //how to upload an image -> can we compare two image ?
+    const countInStock = 1;
+    const description = 'This is a test product';
+    const data = {
+      _id: '6300d4f05246a81441a4cef2',
+      name,
+      slug,
+      price,
+      image,
+      countInStock,
+      description,
+    };
+
     beforeAll(async () => {
       adminUser = await connectAsUser('admin', 'admin');
     });
-    test('update new product', async () => {
-      const name = 'test1';
-      const slug = 'test1-slug';
-      const price = '123456';
-      const image = '/images/f78834a4-792f-4c41-a2c0-7811d1621289.png'; //how to upload an image -> can we compare two image ?
-      const countInStock = 4;
-      const description = 'test description';
-      const data = {
-        _id: '630a8f4318db4dbd90d7217b',
-        name,
-        slug,
-        price,
-        image,
-        countInStock,
-        description,
-      };
 
+    test('add product', async () => {
+      const newProduct = await addProduct(adminUser, data);
+      data._id = newProduct.product._id;
+      expect(newProduct.product).not.toBeNull();
+      expect(newProduct.message).toEqual('Product Created');
+    });
+
+    test('update new product', async () => {
       await updateProduct(
-        'http://localhost:5000/api/products?id=630a8f4318db4dbd90d7217b',
+        `http://localhost:5000/api/products/${data._id}`,
         data,
         adminUser
       );
       const updatedProduct = await getProductByName(
-        'http://localhost:5000/api/products?id=630a8f4318db4dbd90d7217b',
+        `http://localhost:5000/api/products/${data._id}`,
         adminUser
       );
+
       expect(updatedProduct.name).toEqual(name);
       expect(updatedProduct.slug).toEqual(slug);
       expect(updatedProduct.price).toEqual(price);
       expect(updatedProduct.countInStock).toEqual(countInStock);
       expect(updatedProduct.description).toEqual(description);
     });
-    test('add product', async () => {
-      const newProduct = await addProduct(adminUser);
-      expect(newProduct.product).not.toBeNull();
-      expect(newProduct.message).toEqual('Product Created');
-    });
 
     test('delete product', async () => {
-      await deleteProduct('http://localhost:5000/api/products?id=', adminUser);
-      const notFoundProduct = await getProductById(
-        'http://localhost:5000/api/products?id=',
+      const productId = '6300d4f05246a81441a4cef2';
+      await deleteProduct(
+        `http://localhost:5000/api/products/${productId}`,
         adminUser
       );
-      expect(notFoundProduct.product).toBeNull();
-      expect(notFoundProduct.message).toEqual('Product not found');
-      expect(notFoundProduct.status).toEqual(404);
+      const notFoundProduct = await getProductById(
+        `http://localhost:5000/api/products/${productId}`,
+        adminUser
+      );
+      expect(notFoundProduct.product).toBeUndefined();
+      expect(notFoundProduct.message).toEqual("Product doesn't exist");
     });
   });
 });

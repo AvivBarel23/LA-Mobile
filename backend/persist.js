@@ -38,9 +38,10 @@ export const findById = async (table, indicator) => {
   return table.findById(indicator);
 };
 
-export const countDocuments = async (table, filter) => {
+export const countDocuments = async (table, filter = {}) => {
   return table.countDocuments(filter);
 };
+
 export const insertMany = async (table, obj) => {
   return table.insertMany(obj);
 };
