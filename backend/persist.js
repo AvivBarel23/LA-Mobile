@@ -23,6 +23,9 @@ export const find = async (table, query) => {
   }
   return results;
 };
+export const remove = async (obj) => {
+  return obj.remove();
+};
 
 export const getAll = async (table) => {
   return table.find();
@@ -35,9 +38,10 @@ export const findById = async (table, indicator) => {
   return table.findById(indicator);
 };
 
-export const countDocuments = async (table, filter) => {
+export const countDocuments = async (table, filter = {}) => {
   return table.countDocuments(filter);
 };
+
 export const insertMany = async (table, obj) => {
   return table.insertMany(obj);
 };

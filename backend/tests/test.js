@@ -1,13 +1,18 @@
 import { fetchData, fetchWithGet } from '../fetchHelper';
 import {
+  addProduct,
   changePassword,
   checkEqualityOfArrays,
   connectAsUser,
+  deleteProduct,
+  getProductById,
   getRandomSuffix,
   getUserCart,
   getUserCartItemsAsAdmin,
   signUpAsUser,
   updateCart,
+  updateProduct,
+  getProductByName,
 } from '../testHelpers';
 
 describe('Test Routes', () => {
@@ -219,6 +224,67 @@ describe('Test Routes', () => {
         }
       );
       expect(data.message).toEqual(returnedData.message);
+    });
+  });
+  describe('Testing Product routes', () => {
+    let adminUser;
+    const name = 'Test product';
+    const slug = 'test-product';
+    const price = 100;
+    const image = '/images/f78834a4-792f-4c41-a2c0-7811d1621289.png'; //how to upload an image -> can we compare two image ?
+    const countInStock = 1;
+    const description = 'This is a test product';
+    const data = {
+      _id: '6300d4f05246a81441a4cef2',
+      name,
+      slug,
+      price,
+      image,
+      countInStock,
+      description,
+    };
+
+    beforeAll(async () => {
+      adminUser = await connectAsUser('admin', 'admin');
+    });
+
+    test('add product', async () => {
+      const newProduct = await addProduct(adminUser, data);
+      data._id = newProduct.product._id;
+      expect(newProduct.product).not.toBeNull();
+      expect(newProduct.message).toEqual('Product Created');
+    });
+
+    test('update new product', async () => {
+      await updateProduct(
+        `http://localhost:5000/api/products/${data._id}`,
+        data,
+        adminUser
+      );
+      const updatedProduct = await getProductByName(
+        `http://localhost:5000/api/products/${data._id}`,
+        adminUser
+      );
+
+      expect(updatedProduct.name).toEqual(name);
+      expect(updatedProduct.slug).toEqual(slug);
+      expect(updatedProduct.price).toEqual(price);
+      expect(updatedProduct.countInStock).toEqual(countInStock);
+      expect(updatedProduct.description).toEqual(description);
+    });
+
+    test('delete product', async () => {
+      const productId = '6300d4f05246a81441a4cef2';
+      await deleteProduct(
+        `http://localhost:5000/api/products/${productId}`,
+        adminUser
+      );
+      const notFoundProduct = await getProductById(
+        `http://localhost:5000/api/products/${productId}`,
+        adminUser
+      );
+      expect(notFoundProduct.product).toBeUndefined();
+      expect(notFoundProduct.message).toEqual("Product doesn't exist");
     });
   });
 });

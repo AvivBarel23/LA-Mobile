@@ -8,6 +8,9 @@ import {
   findOne,
   getAll,
   presentProducts,
+  remove,
+  save,
+  find,
 } from '../persist.js';
 
 const productRouter = express.Router();
@@ -25,7 +28,7 @@ productRouter.delete(
   expressAsyncHandler(async (req, res) => {
     const product = await findById(Product, req.params.id);
     if (product) {
-      await product.remove();
+      await remove(product);
       res.send({ message: 'Product deleted' });
     } else {
       res.status(404).send({ message: 'Product not found' });
@@ -48,7 +51,7 @@ productRouter.post(
       numReviews: 0,
       description: 'sample description',
     });
-    const product = await newProduct.save();
+    const product = await save(newProduct);
     res.send({ message: 'Product Created', product });
   })
 );
@@ -67,7 +70,7 @@ productRouter.put(
       product.image = req.body.image;
       product.countInStock = req.body.countInStock;
       product.description = req.body.description;
-      await product.save();
+      await save(product);
       res.send({ message: 'Product Updated' });
     } else {
       res.status(404).send({ message: 'Product Not Found' });
@@ -84,10 +87,10 @@ productRouter.get(
     const page = query.page || 1;
     const pageSize = query.pageSize || PAGE_SIZE;
 
-    const products = await Product.find()
+    const products = await find(Product)
       .skip(pageSize * (page - 1))
       .limit(pageSize);
-    const countProducts = await Product.countDocuments();
+    const countProducts = await countDocuments(Product);
     res.send({
       products,
       countProducts,
