@@ -1,3 +1,4 @@
+import { fetchData, fetchWithGet } from '../fetchHelper';
 import {
   addProduct,
   changePassword,
@@ -15,7 +16,7 @@ import {
 } from '../testHelpers';
 
 describe('Test Routes', () => {
-  describe('Testing user routes', () => {
+  describe('Testing User routes', () => {
     test('Connect as admin user', async () => {
       const username = 'admin';
       const password = 'admin';
@@ -82,7 +83,7 @@ describe('Test Routes', () => {
       expect(originalUser.email).toEqual(email);
     });
   });
-  describe('Testing cart routes', () => {
+  describe('Testing Cart routes', () => {
     test('get user cart', async () => {
       const username = 'test';
       const password = 'test';
@@ -113,7 +114,119 @@ describe('Test Routes', () => {
       await updateCart(testUser, []);
     });
   });
-  describe('Testing product routes', () => {
+  describe('Testing Order routes', () => {
+    let testUser;
+    const username = 'test';
+    const password = 'test';
+    const orderId = '630a755410a35d0de60dc4c7';
+
+    beforeAll(async () => {
+      testUser = await connectAsUser(username, password);
+    });
+
+    test('Place new order', async () => {
+      const requestBody = {
+        orderItems: [
+          {
+            _id: '62feb72953da5bd31fb644c4',
+            name: 'macbook pro 14 inch',
+            slug: 'macbook-pro-13',
+            image: '/images/macbook-pro-14.jpg',
+            description: 'macbook pro with retina display',
+            price: 2000,
+            countInStock: 15,
+            rating: 5,
+            numReviews: 6,
+            __v: 0,
+            createdAt: '2022-08-18T22:03:21.660Z',
+            updatedAt: '2022-08-18T22:03:21.660Z',
+            quantity: 1,
+          },
+        ],
+        shippingAddress: {
+          fullName: 'sdf',
+          address: 'sdf',
+          city: 'sdf',
+          postalCode: '37',
+          country: 'sdf',
+        },
+        paymentMethod: 'PayPal',
+        itemsPrice: 4000,
+        shippingPrice: 0,
+        totalPrice: 4000,
+      };
+
+      const returnedReponse = {
+        message: 'New Order Created',
+      };
+
+      const data = await fetchData(
+        `http://localhost:5000/api/orders`,
+        { userId: testUser._id, ...requestBody },
+        'POST',
+        {
+          Authorization: `Bearer ${testUser.token}`,
+        }
+      );
+      expect(data.message).toEqual(returnedReponse.message);
+    });
+
+    test('returns order by id', async () => {
+      const returnedData = {
+        __v: 0,
+        _id: '630a755410a35d0de60dc4c7',
+        createdAt: '2022-08-27T19:49:40.210Z',
+        isPaid: true,
+        itemsPrice: 4000,
+        orderItems: [
+          {
+            _id: '62feb72953da5bd31fb644c4',
+            image: '/images/macbook-pro-14.jpg',
+            name: 'macbook pro 14 inch',
+            price: 2000,
+            product: '62feb72953da5bd31fb644c4',
+            quantity: 1,
+            slug: 'macbook-pro-13',
+          },
+        ],
+        paymentMethod: 'PayPal',
+        shippingAddress: {
+          address: 'sdf',
+          city: 'sdf',
+          country: 'sdf',
+          fullName: 'sdf',
+          postalCode: '37',
+        },
+        shippingPrice: 0,
+        totalPrice: 4000,
+        user: '6304f7bd66407bc0cf62b078',
+      };
+      const returnedItem = await fetchWithGet(
+        `http://localhost:5000/api/orders/${orderId}`,
+        {
+          Authorization: `Bearer ${testUser.token}`,
+        }
+      );
+      const { paidAt, updatedAt, ...returnedItemWithoutUpdatePaid } =
+        returnedItem;
+      expect(returnedItemWithoutUpdatePaid).toEqual(returnedData);
+    });
+
+    test('Pay for an order', async () => {
+      const returnedData = { message: 'Order paid' };
+
+      const data = await fetchData(
+        `http://localhost:5000/api/orders/${orderId}/pay`,
+        {},
+        'PUT',
+        {
+          Authorization: `Bearer ${testUser.token}`,
+        }
+      );
+      expect(data.message).toEqual(returnedData.message);
+    });
+  });
+  describe('Testing Product routes', () => {
     let adminUser;
     const name = 'Test product';
     const slug = 'test-product';
