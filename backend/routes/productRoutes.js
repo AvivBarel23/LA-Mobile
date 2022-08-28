@@ -162,7 +162,7 @@ productRouter.get(
       filterObj,
       sortOrder,
       skipSize,
-      pageSizesa
+      pageSize
     );
 
     const countProducts = await countDocuments(Product, {
