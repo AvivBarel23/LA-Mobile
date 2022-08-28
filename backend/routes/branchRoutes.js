@@ -1,6 +1,6 @@
 import express from 'express';
 import data from '../data.js';
-import { insertMany } from '../persist.js';
+import { getAll, insertMany } from '../persist.js';
 import expressAsyncHandler from 'express-async-handler';
 import Branch from '../models/branchModel.js';
 
