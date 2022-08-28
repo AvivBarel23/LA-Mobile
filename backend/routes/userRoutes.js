@@ -11,6 +11,7 @@ import {
   save,
 } from '../persist.js';
 import ActivityLog from '../models/activityLogModel.js';
+import Cart from '../models/cartModel.js';
 
 const userRouter = express.Router();
 
@@ -58,6 +59,7 @@ userRouter.post(
     res.status(401).send({ message: 'Invalid username or password' });
   })
 );
+
 userRouter.post(
   '/signout',
   isAuth,
@@ -86,6 +88,16 @@ userRouter.post(
     });
     const user = await save(newUser);
     await activityLogUpdate('sign up', user._id);
+    const cartDoc = new Cart({
+      userId: user._id,
+      cart: {
+        shippingAddress: {},
+        paymentMethod: '',
+        cartItems: [],
+      },
+      wasFetchedFromDb: false,
+    });
+    await save(cartDoc);
     res.send({
       _id: user._id,
       username: user.username,

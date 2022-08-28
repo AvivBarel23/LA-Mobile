@@ -7,6 +7,7 @@ import { useContext, useState } from 'react';
 import { Store } from '../Store';
 import { toast } from 'react-toastify';
 import { getError } from '../utils.js';
+import { signOut } from '../signOut';
 
 export default function ProfileScreen() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -36,6 +37,7 @@ export default function ProfileScreen() {
       ctxDispatch({ type: 'USER_SIGNIN', payload: data });
       localStorage.setItem('userInfo', JSON.stringify(data));
       toast.success('User updated successfully');
+      await signOut(data, ctxDispatch);
     } catch (err) {
       toast.error(getError(err));
     }
