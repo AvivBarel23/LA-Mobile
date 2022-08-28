@@ -11,6 +11,7 @@ import {
   save,
 } from '../persist.js';
 import ActivityLog from '../models/activityLogModel.js';
+import Cart from '../models/cartModel.js';
 
 const userRouter = express.Router();
 
