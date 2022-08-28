@@ -30,20 +30,6 @@ describe('Test Routes', () => {
       const user = await connectAsUser(username, password);
       expect(user && !user.isAdmin).toBeTruthy();
     });
-    test('Sign up', async () => {
-      const suffix = getRandomSuffix();
-      const username = `test${suffix}`;
-      const password = `test${suffix}`;
-      const email = `test${suffix}@gmail.com`;
-      const newUser = await signUpAsUser(username, email, password);
-      expect(newUser).not.toBeNull();
-      expect(newUser.username).toEqual(username);
-      expect(newUser.email).toEqual(email);
-      const user = await connectAsUser(username, password);
-      expect(user).not.toBeNull();
-      expect(user.username).toEqual(username);
-      expect(user.email).toEqual(email);
-    });
     test('Change Password', async () => {
       const username = 'test';
       const email = 'test@gmail.com';
