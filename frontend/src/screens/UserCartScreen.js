@@ -34,7 +34,6 @@ export default function UserCartScreen() {
     const fetchData = async () => {
       dispatch({ type: 'FETCH_REQUEST' });
       try {
-        debugger;
         const { data } = await axios.get(
           `/api/cart/admin/cartItems?userId=${userId}`,
 

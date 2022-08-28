@@ -13,13 +13,13 @@ export default function ShippingAddressScreen() {
     userInfo,
   } = state;
   const navigate = useNavigate();
-  const [fullName, setFullName] = useState(shippingAddress.fullName || '');
-  const [address, setAddress] = useState(shippingAddress.address || '');
-  const [city, setCity] = useState(shippingAddress.city || '');
+  const [fullName, setFullName] = useState(shippingAddress?.fullName || '');
+  const [address, setAddress] = useState(shippingAddress?.address || '');
+  const [city, setCity] = useState(shippingAddress?.city || '');
   const [postalCode, setPostalCode] = useState(
-    shippingAddress.postalCode || ''
+    shippingAddress?.postalCode || ''
   );
-  const [country, setCountry] = useState(shippingAddress.country || '');
+  const [country, setCountry] = useState(shippingAddress?.country || '');
 
   const submitHandler = (e) => {
     e.preventDefault();

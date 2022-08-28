@@ -81,7 +81,6 @@ export const StoreProvider = (props) => {
   useEffect(() => {
     async function fetchData() {
       if (flag) {
-        debugger;
         const { data } = await axios.get(
           `/api/cart?userId=${state.userInfo._id}`,
           {
