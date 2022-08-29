@@ -48,7 +48,7 @@ cartRouter.get(
       if (cartItems) res.send(cartItems);
       else res.send([]);
     }
-    res.status(401).send({ message: 'user cart doesnt exists' });
+    res.status(404).send({ message: 'user cart doesnt exists' });
   })
 );
 cartRouter.put(
