@@ -11,6 +11,7 @@ import {
   save,
 } from '../persist.js';
 import ActivityLog from '../models/activityLogModel.js';
+import Cart from '../models/cartModel.js';
 
 const userRouter = express.Router();
 
@@ -86,6 +87,18 @@ userRouter.post(
     });
     const user = await save(newUser);
     await activityLogUpdate('sign up', user._id);
+
+    const cartDoc = new Cart({
+      userId: user._id,
+      cart: {
+        shippingAddress: {},
+        paymentMethod: '',
+        cartItems: [],
+      },
+      wasFetchedFromDb: false,
+    });
+    await save(cartDoc);
+
     res.send({
       _id: user._id,
       username: user.username,
@@ -102,7 +115,7 @@ userRouter.put(
   expressAsyncHandler(async (req, res) => {
     const user = await findById(User, req.user._id);
     if (user) {
-      user.username = req.body.name || user.username;
+      user.username = req.body.username || user.username;
       user.email = req.body.email || user.email;
       if (req.body.password) {
         user.password = bcrypt.hashSync(req.body.password, 8);
@@ -111,7 +124,7 @@ userRouter.put(
       await activityLogUpdate('change password', user._id);
       res.send({
         _id: updatedUser._id,
-        name: updatedUser.username,
+        username: updatedUser.username,
         email: updatedUser.email,
         isAdmin: updatedUser.isAdmin,
         token: generateToken(updatedUser),
