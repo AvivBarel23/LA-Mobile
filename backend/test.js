@@ -1,4 +1,4 @@
-import { fetchData, fetchWithGet } from '../fetchHelper';
+import { fetchData, fetchWithGet } from './fetchHelper';
 import {
   addProduct,
   changePassword,
@@ -6,14 +6,12 @@ import {
   connectAsUser,
   deleteProduct,
   getProductById,
-  getRandomSuffix,
   getUserCart,
   getUserCartItemsAsAdmin,
-  signUpAsUser,
   updateCart,
   updateProduct,
   getProductByName,
-} from '../testHelpers';
+} from './testHelpers';
 
 describe('Test Routes', () => {
   describe('Testing User routes', () => {
