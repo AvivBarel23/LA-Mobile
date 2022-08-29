@@ -72,7 +72,7 @@ export const getProductByName = async (url, user) => {
   });
 };
 
-export const addProduct = async (user, body) => {
+export const addProduct = async (user) => {
   return await fetchData('http://localhost:5000/api/products', {}, 'POST', {
     Authorization: `Bearer ${user.token}`,
   });
@@ -96,5 +96,3 @@ export const getProductById = async (url, user) => {
     Authorization: `Bearer ${user.token}`,
   });
 };
-
-export const getRandomSuffix = () => Math.floor(Math.random() * 10000000000);
